@@ -96,10 +96,15 @@ function SignUp() {
     }
   };
 
-  let changeme = false;
+  let [changeme, setChangeme] = useState(false);
   const mytest = () => {
-    changeme = !changeme;
-    return changeme;
+    console.log("mtyest");
+    console.log(changeme);
+    if (changeme) {
+      setChangeme(false);
+    } else {
+      setChangeme(true);
+    }
   }
 
   return (
@@ -196,7 +201,7 @@ function SignUp() {
         // <div style={{ overflow: "auto" }}>
         //   <AlertsMessage messages={messages} />
         // </div>
-      <AlertDialog open={mytest} />
+      <AlertDialog open={changeme} />
       )}
     </Container>
   );
