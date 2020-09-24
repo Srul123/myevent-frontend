@@ -8,10 +8,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import AlertsMessage from "../../alerts/AlertsMessage";
 import AlertDialog from "../../alerts/AlertDialog";
-import axios from 'axios';
+import axios from "axios";
+import { validateInputsSignUp } from "../../../services/validationsFunctions";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,52 +44,36 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [open, setOpen] = React.useState(false);
+  const history = useHistory();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    mytest();
-    const errorToAlerts = [];
-    if (firstName.length < 2 || !/^[a-zA-Z ]+$/.test(firstName)) {
-      errorToAlerts.push("Please fix your first name");
-    }
-    if (lastName.length < 2 || !/^[a-zA-Z ]+$/.test(lastName)) {
-      errorToAlerts.push("Please fix your last name");
-    }
-    const re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (email === "" || !re.test(String(email).toLowerCase())) {
-      errorToAlerts.push("Please fix your emaill address");
-    }
-    if (password.length < 6) {
-      errorToAlerts.push(
-        "Please fix your password to contain at least 6 characters"
-      );
-    }
-
+    const errorToAlerts = validateInputsSignUp(
+      firstName,
+      lastName,
+      email,
+      password
+    );
     if (errorToAlerts.length > 0) {
       setMssages(errorToAlerts);
       setRiseAlert(true);
       return;
     } else {
       setRiseAlert(false);
+      handleClose();
       const user = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
+        firstName,
+        lastName,
+        email,
+        password
       };
 
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
       try {
-        const response = await axios.post(
-          `http://localhost:5000/users/`,
-          user,
-          config
-        );
+        const response = await axios.post(`http://localhost:5000/users/`, user);
+        // eslint-disable-next-line
         const data = response.data;
-        console.log(data);
+        setOpen(true);
       } catch (error) {
         console.log("error");
         console.log(error);
@@ -96,16 +81,13 @@ function SignUp() {
     }
   };
 
-  let [changeme, setChangeme] = useState(false);
-  const mytest = () => {
-    console.log("mtyest");
-    console.log(changeme);
-    if (changeme) {
-      setChangeme(false);
-    } else {
-      setChangeme(true);
-    }
-  }
+
+  const handleClose = (value) => {
+    setOpen(false);
+    setTimeout(() => {
+      history.push("/signin");
+    }, 3000);
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -198,11 +180,16 @@ function SignUp() {
         </form>
       </div>
       {riseAlert && (
-        // <div style={{ overflow: "auto" }}>
-        //   <AlertsMessage messages={messages} />
-        // </div>
-      <AlertDialog open={changeme} />
+        <div style={{ overflow: "auto" }}>
+          <AlertsMessage messages={messages} />
+        </div>
       )}
+      <AlertDialog
+        open={open}
+        onClose={handleClose}
+        title={"Your registration is complete"}
+        message={"Please login to your account"}
+      />
     </Container>
   );
 }

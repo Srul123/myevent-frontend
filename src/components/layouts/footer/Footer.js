@@ -1,9 +1,8 @@
 import React from 'react';
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import {Link} from 'react-router-dom'
 
-import "./Footer.scss";
 
 const useStyles = makeStyles((theme) => ({
     footer: {
@@ -12,17 +11,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const footerStyle = {
+    position: "absolute",
+    bottom: "0",
+    width: "100%",
+    padding: "1vh",
+    backgroundColor: "rgb(63,81,181)",
+    color: "white"
+}
+
 export default function Footer() {
     const classes = useStyles();
 
     return (
-        <footer className={classes.footer}>
+        <footer className={classes.footer} style={footerStyle}>
             <Typography variant="h6" align="center" gutterBottom>
                 My-Event
         </Typography>
-            <Typography variant="body2" color="textSecondary" align="center">
+            <Typography variant="body2"  align="center">
                 {'Copyright © '}
-                <Link color="inherit" href="http://localhost:3000/">
+                <Link color="inherit" to="/" style={{color:"white"}}>
                     My-Event
         </Link>{' '}
                 {new Date().getFullYear()}

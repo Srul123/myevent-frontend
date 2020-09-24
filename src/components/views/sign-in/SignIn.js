@@ -1,32 +1,39 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import {Link}  from "react-router-dom";
-
-
+import React from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Grid from "@material-ui/core/Grid";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { Link, useHistory } from "react-router-dom";
+import axios from "axios";
+import AlertsMessage from "../../alerts/AlertsMessage";
+import LoaderSpinner from "../../loader-spinner/LoaderSpinner";
+import { useDispatch } from "react-redux";
+import allActions from "../../../redux/actions";
+import {
+  isAuthenticatedUser,
+  validateInputsSignIn,
+} from "../../../services/validationsFunctions";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -35,7 +42,51 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  const history = useHistory();
   const classes = useStyles();
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [riseAlert, setRiseAlert] = React.useState(false);
+  const [messages, setMssages] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const dispatch = useDispatch();
+  const setLoginUser = (user) =>
+    dispatch(allActions.userActions.loginUser(user));
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const errorToAlerts = validateInputsSignIn(email, password);
+    if (errorToAlerts.length > 0) {
+      setRiseAlert(true);
+      setMssages(errorToAlerts);
+      setLoading(false);
+      return;
+    }
+    try {
+      const response = await axios.get(`http://localhost:5000/users/`);
+      const data = response.data;
+      let isAuthenticated = isAuthenticatedUser(email, password, data);
+      if (!isAuthenticated) {
+        setRiseAlert(true);
+        setMssages([
+          "Your details are worong, please provide an authorized email and password!",
+        ]);
+        setLoading(false);
+      } else if (isAuthenticated) {
+        setLoginUser(isAuthenticated);
+        history.push("/myprofile");
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log("Error in SignIn component");
+      console.log(error);
+    }
+  };
+
+  if (loading) {
+    return <LoaderSpinner />;
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -58,6 +109,9 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
           />
           <TextField
             variant="outlined"
@@ -69,6 +123,9 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -80,23 +137,25 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSubmit}
           >
             Sign In
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link to="/">
-                Forgot password?
-              </Link>
+              <Link to="/">Forgot password?</Link>
             </Grid>
             <Grid item>
-              <Link to="/signup" >
-                {"Don't have an account? Sign Up"}
-              </Link>
+              <Link to="/signup">{"Don't have an account? Sign Up"}</Link>
             </Grid>
           </Grid>
         </form>
       </div>
+      {riseAlert && (
+        <div style={{ overflow: "auto" }}>
+          <AlertsMessage messages={messages} />
+        </div>
+      )}
     </Container>
   );
 }

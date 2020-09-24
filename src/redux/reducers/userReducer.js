@@ -1,22 +1,23 @@
 import {
-    CREATE_USER,
+    LOGIN,
     ERROR
 } from "../types";
 
 const initialState = {
-    count: 0,
-    error: ""
+    login: false,
+    user: {}
 };
 
-const reducer = (state = initialState, action) => {
+const userReducer = (state = initialState, action) => {
     switch (action.type) {
-        case CREATE_USER:
+        case LOGIN:
             return {
                 ...state,
-                count: action.payload
+                login: true,
+                user: action.payload
             };
         case ERROR:
-            console.error("Error from Reducer: " + action.payload);
+            console.error("Error from UserReducer: " + action.payload);
             return {
                 ...state,
                 error: action.payload
@@ -25,5 +26,4 @@ const reducer = (state = initialState, action) => {
             return state;
     }
 };
-
-export default reducer;
+export default userReducer;

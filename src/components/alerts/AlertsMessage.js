@@ -12,12 +12,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AlertsMessage(props) {
-  console.log("props.messages");
-  console.log(props.messages);
   const classes = useStyles();
-
   return (
-    <div className={classes.root} style={{position:"relative"}}>
+    <div
+      className={classes.root}
+      style={{ position: "relative", maxHeight: "25vh" }}
+    >
       {props.messages.map((message, index) => (
         <Alert key={index} severity="error">
           {message}
