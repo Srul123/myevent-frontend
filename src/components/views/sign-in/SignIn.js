@@ -75,8 +75,8 @@ export default function SignIn() {
         setLoading(false);
       } else if (isAuthenticated) {
         setLoginUser(isAuthenticated);
-        history.push("/myprofile");
         setLoading(false);
+        history.push("/myprofile");
       }
     } catch (error) {
       console.log("Error in SignIn component");
