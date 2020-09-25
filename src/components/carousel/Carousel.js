@@ -57,11 +57,7 @@ function Carousel(props) {
 	};
 
 	const handleStepChange = (step) => {
-		console.log("step change");
 		setActiveStep(step);
-		// setTimeout(() => {
-		//
-		// }, 2000);
 	};
 
 	return (
@@ -74,7 +70,7 @@ function Carousel(props) {
 				index={activeStep}
 				onChangeIndex={handleStepChange}
 				enableMouseEvents
-				interval={2000}>
+				interval={4000}>
 				{tutorialSteps.map((step, index) => (
 					<div key={step.label}>
 						{Math.abs(activeStep - index) <= 2 ? (

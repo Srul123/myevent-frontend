@@ -11,8 +11,6 @@ import Footer from "../layouts/footer/Footer";
 
 export default function Views() {
   const isLoggedIn = useSelector((state) => {
-    console.log("state");
-    console.log(state);
     return state.userReducer.login;
   });
   

@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 
 const footerStyle = {
     position: "absolute",
-    bottom: "0",
+    top: "90%",
     width: "100%",
     padding: "1vh",
     backgroundColor: "rgb(63,81,181)",
