@@ -8,5 +8,5 @@ export default function Header() {
     return state.userReducer.login;
   });
 
-  return <>{isLoggedIn ? <AppBarLogin /> : <AppBarMain />}</>;
+  return <>{true ? <AppBarLogin /> : <AppBarMain />}</>;
 }

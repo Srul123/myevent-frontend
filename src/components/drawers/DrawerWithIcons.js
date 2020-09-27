@@ -21,8 +21,9 @@ import EventNoteIcon from "@material-ui/icons/EventNote";
 import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
 import MarkunreadMailboxOutlinedIcon from "@material-ui/icons/MarkunreadMailboxOutlined";
 import BorderVerticalOutlinedIcon from "@material-ui/icons/BorderVerticalOutlined";
-import NotificationsActiveOutlinedIcon from '@material-ui/icons/NotificationsActiveOutlined';
-import SettingsApplicationsOutlinedIcon from '@material-ui/icons/SettingsApplicationsOutlined';
+import NotificationsActiveOutlinedIcon from "@material-ui/icons/NotificationsActiveOutlined";
+import SettingsApplicationsOutlinedIcon from "@material-ui/icons/SettingsApplicationsOutlined";
+import { NavLink, useLocation } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -86,13 +87,57 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  anchor: {
+    textDecoration: "none",
+    color: "unset",
+  },
 }));
+
+const optionRoutes = [
+  {
+    title: "Overall Status",
+    icon: <PlaylistAddCheckIcon />,
+    route: "/myprofile",
+  },
+  {
+    title: "My Event Details",
+    icon: <EventNoteIcon />,
+    route: "0",
+  },
+  {
+    title: "Inviters Managment",
+    icon: <PeopleOutlineIcon />,
+    route: "1",
+  },
+  {
+    title: "RSVP",
+    icon: <MarkunreadMailboxOutlinedIcon />,
+    route: "2",
+  },
+  {
+    title: "Seating Arrangement",
+    icon: <BorderVerticalOutlinedIcon />,
+    route: "3",
+  },
+];
+
+const newOptionActiveRoutesListArray = (optionRoutesList, currentPath) => {
+  const newOptionListWithActivePaths = optionRoutesList.map((option) => {
+    option.isActive = option.route === currentPath ? true : false;
+    return option;
+  });
+  return newOptionListWithActivePaths;
+};
 
 export default function DrawerWithIcons(props) {
   const { open, setOpen } = props;
   const classes = useStyles();
   const theme = useTheme();
-
+  const location = useLocation();
+  const optionRoutesList = newOptionActiveRoutesListArray(
+    optionRoutes,
+    location.pathname
+  );
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -160,20 +205,28 @@ export default function DrawerWithIcons(props) {
         </div>
         <Divider />
         <List>
-          {[
-            { title: "Overall Status", icon: <PlaylistAddCheckIcon /> },
-            { title: "My Event Details", icon: <EventNoteIcon /> },
-            { title: "Inviters Managment", icon: <PeopleOutlineIcon /> },
-            { title: "RSVP", icon: <MarkunreadMailboxOutlinedIcon /> },
-            {
-              title: "Seating Arrangement",
-              icon: <BorderVerticalOutlinedIcon />,
-            },
-          ].map((option, index) => (
-            <ListItem button key={index}>
-              <ListItemIcon>{option.icon}</ListItemIcon>
-              <ListItemText primary={option.title} />
-            </ListItem>
+          {optionRoutesList.map((option, index) => (
+            <NavLink to={option.route} key={index} className={classes.anchor}>
+              {option.isActive ? (
+                <div style={{ background: "lightgray" }}>
+                  <ListItem
+                    button
+                    key={index}
+                    style={{ background: "light-blue" }}
+                  >
+                    <ListItemIcon>{option.icon}</ListItemIcon>
+                    <ListItemText primary={option.title} />
+                  </ListItem>
+                </div>
+              ) : (
+                <div>
+                  <ListItem button key={index}>
+                    <ListItemIcon>{option.icon}</ListItemIcon>
+                    <ListItemText primary={option.title} />
+                  </ListItem>
+                </div>
+              )}
+            </NavLink>
           ))}
         </List>
         <Divider />
@@ -189,9 +242,7 @@ export default function DrawerWithIcons(props) {
             },
           ].map((option, index) => (
             <ListItem button key={index}>
-              <ListItemIcon>
-                {option.icon}
-              </ListItemIcon>
+              <ListItemIcon>{option.icon}</ListItemIcon>
               <ListItemText primary={option.title} />
             </ListItem>
           ))}
