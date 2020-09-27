@@ -24,6 +24,7 @@ import BorderVerticalOutlinedIcon from "@material-ui/icons/BorderVerticalOutline
 import NotificationsActiveOutlinedIcon from "@material-ui/icons/NotificationsActiveOutlined";
 import SettingsApplicationsOutlinedIcon from "@material-ui/icons/SettingsApplicationsOutlined";
 import { NavLink, useLocation } from "react-router-dom";
+import "./AppBarLoginWithIcons.scss";
 
 const drawerWidth = 240;
 
@@ -91,6 +92,12 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     color: "unset",
   },
+  anchor: {
+    background: "none",
+    active: {
+      background: "lightgray !important",
+    },
+  },
 }));
 
 const optionRoutes = [
@@ -121,23 +128,12 @@ const optionRoutes = [
   },
 ];
 
-const newOptionActiveRoutesListArray = (optionRoutesList, currentPath) => {
-  const newOptionListWithActivePaths = optionRoutesList.map((option) => {
-    option.isActive = option.route === currentPath ? true : false;
-    return option;
-  });
-  return newOptionListWithActivePaths;
-};
 
 export default function DrawerWithIcons(props) {
   const { open, setOpen } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const location = useLocation();
-  const optionRoutesList = newOptionActiveRoutesListArray(
-    optionRoutes,
-    location.pathname
-  );
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -205,29 +201,21 @@ export default function DrawerWithIcons(props) {
         </div>
         <Divider />
         <List>
-          {optionRoutesList.map((option, index) => (
-            <NavLink to={option.route} key={index} className={classes.anchor}>
-              {option.isActive ? (
-                <div style={{ background: "lightgray" }}>
-                  <ListItem
-                    button
-                    key={index}
-                    style={{ background: "light-blue" }}
-                  >
-                    <ListItemIcon>{option.icon}</ListItemIcon>
-                    <ListItemText primary={option.title} />
-                  </ListItem>
-                </div>
-              ) : (
-                <div>
+            {optionRoutes.map((option, index) => (
+              <NavLink to={option.route} key={index} className={classes.anchor}>
+                {option.isActive ? (
                   <ListItem button key={index}>
                     <ListItemIcon>{option.icon}</ListItemIcon>
                     <ListItemText primary={option.title} />
                   </ListItem>
-                </div>
-              )}
-            </NavLink>
-          ))}
+                ) : (
+                  <ListItem button key={index}>
+                    <ListItemIcon>{option.icon}</ListItemIcon>
+                    <ListItemText primary={option.title} />
+                  </ListItem>
+                )}
+              </NavLink>
+            ))}
         </List>
         <Divider />
         <List>
