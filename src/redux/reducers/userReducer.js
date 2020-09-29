@@ -1,6 +1,8 @@
 import {
     LOGIN,
-    ERROR
+    ERROR,
+    LOGOUT,
+    UPDATE_USER
 } from "../types";
 
 const initialState = {
@@ -14,6 +16,19 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 login: true,
+                user: action.payload
+            };
+        case LOGOUT:
+            return {
+                ...state,
+                login: false,
+                user: {}
+            };
+        case UPDATE_USER:
+            console.log(action.payload);
+            console.log('action.payload');
+            return {
+                ...state,
                 user: action.payload
             };
         case ERROR:

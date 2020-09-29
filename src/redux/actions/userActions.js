@@ -1,4 +1,4 @@
-import { LOGIN, ERROR } from "../types";
+import { LOGIN, ERROR, LOGOUT, UPDATE_USER } from "../types";
 
 const loginUser = (user) => {
   if (!user) {
@@ -10,6 +10,19 @@ const loginUser = (user) => {
   };
 };
 
+const logoutUser = () => {
+  return {
+    type: LOGOUT
+  };
+};
+
+const updateUserDetails = (user) => {
+  return {
+    type: UPDATE_USER,
+    payload: user
+  };
+};
+
 const errorInLogin = () => {
   return {
     type: ERROR,
@@ -18,5 +31,5 @@ const errorInLogin = () => {
 };
 
 export default {
-  loginUser,
+  loginUser, logoutUser, updateUserDetails
 };

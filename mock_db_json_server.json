@@ -12,6 +12,15 @@
       "lastName": "fsdfds",
       "email": "ih5938133@gmail.com",
       "password": "fdsfdsfdsfsdf",
+      "details": {
+        "eventName": "",
+        "eventDate": "",
+        "eventTime": "",
+        "eventLocation": {
+          "locationName": "",
+          "locationLink": ""
+        }
+      },
       "id": 2
     },
     {
@@ -57,11 +66,20 @@
       "id": 8
     },
     {
-      "firstName": "fsdfsf",
-      "lastName": "fsdfsfs",
+      "firstName": "Israel",
+      "lastName": "Heiblum",
       "email": "ih5938133@gmail.com",
       "password": "123456",
-      "id": 9
+      "id": 9,
+      "details": {
+        "eventName": "fsdf123",
+        "eventDate": "2020-09-28T21:00:00.000Z",
+        "eventTime": "12:00",
+        "location": {
+          "locationName": "fsd",
+          "locationLink": "fds"
+        }
+      }
     },
     {
       "firstName": "fSFSD",

@@ -23,8 +23,11 @@ import MarkunreadMailboxOutlinedIcon from "@material-ui/icons/MarkunreadMailboxO
 import BorderVerticalOutlinedIcon from "@material-ui/icons/BorderVerticalOutlined";
 import NotificationsActiveOutlinedIcon from "@material-ui/icons/NotificationsActiveOutlined";
 import SettingsApplicationsOutlinedIcon from "@material-ui/icons/SettingsApplicationsOutlined";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import {useDispatch } from "react-redux";
+
 import "./AppBarLoginWithIcons.scss";
+import allActions from "../../../../redux/actions";
 
 const drawerWidth = 240;
 
@@ -88,16 +91,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
-  anchor: {
-    textDecoration: "none",
-    color: "unset",
-  },
-  anchor: {
-    background: "none",
-    active: {
-      background: "lightgray !important",
-    },
-  },
 }));
 
 const optionRoutes = [
@@ -109,7 +102,7 @@ const optionRoutes = [
   {
     title: "My Event Details",
     icon: <EventNoteIcon />,
-    route: "0",
+    route: "/event-details",
   },
   {
     title: "Inviters Managment",
@@ -130,9 +123,13 @@ const optionRoutes = [
 
 
 export default function DrawerWithIcons(props) {
-  const { open, setOpen } = props;
+  const [open, setOpen] = React.useState(false)
   const classes = useStyles();
   const theme = useTheme();
+
+  const dispatch = useDispatch();
+  const logout = () =>
+      dispatch(allActions.userActions.logoutUser());
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -173,7 +170,7 @@ export default function DrawerWithIcons(props) {
             <Typography variant="h6" noWrap>
               My Event
             </Typography>
-            <Button color="inherit">Logut</Button>
+            <Button color="inherit" onClick={()=> logout()}>Logout</Button>
           </div>
         </Toolbar>
       </AppBar>
@@ -182,7 +179,7 @@ export default function DrawerWithIcons(props) {
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open,
-        })}
+        }) + " coverDrawer"}
         classes={{
           paper: clsx({
             [classes.drawerOpen]: open,
@@ -203,17 +200,10 @@ export default function DrawerWithIcons(props) {
         <List>
             {optionRoutes.map((option, index) => (
               <NavLink to={option.route} key={index} className={classes.anchor}>
-                {option.isActive ? (
                   <ListItem button key={index}>
                     <ListItemIcon>{option.icon}</ListItemIcon>
                     <ListItemText primary={option.title} />
                   </ListItem>
-                ) : (
-                  <ListItem button key={index}>
-                    <ListItemIcon>{option.icon}</ListItemIcon>
-                    <ListItemText primary={option.title} />
-                  </ListItem>
-                )}
               </NavLink>
             ))}
         </List>

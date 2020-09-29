@@ -1,5 +1,10 @@
-    a.active > div{
-        background-color: lightgrey;
-    }
+.coverDrawer {
+  a {
+    text-decoration: none;
+    color: unset;
+  }
 
-
+  a.active > div {
+    background-color: lightgrey;
+  }
+}

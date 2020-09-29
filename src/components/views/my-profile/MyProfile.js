@@ -19,13 +19,9 @@ export default function MyProfile() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root} style={{marginLeft: "80px", marginTop: "80px", marginRight: "10px"}}>
-      <Grid container spacing={3}>
-       
-        <Grid item xs={6}>
-          <Paper className={classes.paper}>xs=6</Paper>
-        </Grid>
-        <Grid item xs={6}>
+    <div className={classes.root} style={{ marginTop: "80px"}}>
+      <Grid container spacing={5}>
+        <Grid item xs={12}>
           <Paper className={classes.paper}>xs=6</Paper>
         </Grid>
         <Grid item xs={3}>
