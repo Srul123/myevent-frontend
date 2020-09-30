@@ -25,8 +25,6 @@ const userReducer = (state = initialState, action) => {
                 user: {}
             };
         case UPDATE_USER:
-            console.log(action.payload);
-            console.log('action.payload');
             return {
                 ...state,
                 user: action.payload

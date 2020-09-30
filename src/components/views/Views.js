@@ -29,14 +29,16 @@ export default function Views() {
             <Header/>
             <Container fixed>
 
-            <Switch>
-                <Route path={"/signup"} component={SignUp}/>
-                <Route path={"/signin"} component={SignIn}/>
-                <Route path={"/"} exact component={HomePage}/>
-                {isLoggedIn ?
-                    (isLoginRoutesComps) :
-                    (<Redirect to="/signin"/>)}
-            </Switch>
+                <Switch>
+                    <Route path={"/signup"} component={SignUp}/>
+                    <Route path={"/signin"} component={SignIn}/>
+                    <Route path={"/"} exact component={HomePage}/>
+                    {isLoggedIn ?
+                        (isLoginRoutesComps) :
+                        (<Redirect to="/signin"/>)}
+                    <Route render={() => <h1>Not found</h1>}/>
+
+                </Switch>
             </Container>
 
             <Footer/>

@@ -8,13 +8,22 @@ import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
 } from "@material-ui/pickers";
+import FormControl from '@material-ui/core/FormControl';
+
 import axios from "axios";
 import {useSelector,useDispatch } from "react-redux";
+import Moment from 'moment';
+
+import Button from "@material-ui/core/Button";
+import allActions from "../../../redux/actions";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import SnackbarWithPosition from "../../alerts/SnackbarWithPosition";
 
 
 import "./MyEventDetails.scss";
-import Button from "@material-ui/core/Button";
-import allActions from "../../../redux/actions";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,15 +39,14 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(1),
         width: 200,
     },
+    formControl: {
+        minWidth: 120,
+    },
 }));
 
 export default function MyEventDetails() {
     const classes = useStyles();
-    debugger;
-    const user = useSelector((state) => {
-        console.log(state)
-        return state.userReducer.user;
-    });
+    const user = useSelector((state) =>  state.userReducer.user);
 
     const dispatch = useDispatch();
     const updateUserDetails = (user) =>
@@ -47,14 +55,17 @@ export default function MyEventDetails() {
     const initEventName = user.details ? user.details.eventName : "";
     const [eventName, setEventName] = React.useState(initEventName);
 
+    const initEventType = user.details ? user.details.eventType : "";
+    const [eventType, setEventType] = React.useState(initEventType);
+
     const currently = new Date();
     const currentlyDate = new Date(currently.getFullYear() + "-" +
         (currently.getMonth() + 1) + "-" +
         currently.getDate());
+    debugger;
     const initDate = user.details ? user.details.eventDate : currentlyDate;
     const [eventDate, setEventDate] = React.useState(new Date(initDate));
-
-    const initTime = user.details ? user.details.eventTime : "12:00";
+    const initTime = Moment(initDate).format('HH:mm');
     const [selectedTime, setSelectedTime] = React.useState(initTime);
 
     const initEventLocation = user.details ? user.details.location.locationName : "";
@@ -63,13 +74,22 @@ export default function MyEventDetails() {
     const initLocationLink = user.details ? user.details.location.locationLink : "";
     const [locationLink, setLocationLink] = React.useState(initLocationLink);
 
+    const [alertPopup, setAlertPopup] = React.useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+    });
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        debugger;
+        setAlertPopup({open: true, ...alertPopup});
+        const date = Moment(eventDate).format("YYYY-MM-DD");
+        let dateWithTime = Moment(`${date} ${selectedTime}`);
+        dateWithTime = new Date(dateWithTime);
         const userDetails = {
             eventName,
-            eventDate,
-            eventTime: selectedTime,
+            eventType,
+            eventDate: dateWithTime,
             location: {
                 locationName,
                 locationLink
@@ -79,12 +99,21 @@ export default function MyEventDetails() {
         let response;
         try {
             response = await axios.put(`http://localhost:5000/users/${user.id}`, user);
-            console.log(response);
             updateUserDetails(response.data);
+            riseAlert();
+
         } catch (e) {
             console.log("Error from MyEventDetails " + response);
             console.log(e);
         }
+    };
+
+    const closeAlert = () => {
+        setAlertPopup({...alertPopup, open: false});
+    };
+
+    const riseAlert = () => {
+        setAlertPopup({open: true,...{vertical: 'top', horizontal: 'center'}});
     };
 
     return (
@@ -98,22 +127,42 @@ export default function MyEventDetails() {
                         <form className={classes.form} noValidate autoComplete="off">
                             <div className="first-row">
                                 <TextField
-                                    id="outlined-basic"
+                                    className={"eventName"}
+                                    id="eventName"
                                     label="My event name"
                                     variant="outlined"
                                     value={eventName}
                                     onChange={(event => setEventName(event.target.value))}
                                 />
+                                <FormControl variant="outlined" className={classes.formControl}>
+                                    <InputLabel id="demo-simple-select-outlined-label">Event type</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-outlined-label"
+                                        id="demo-simple-select-outlined"
+                                        value={eventType}
+                                        onChange={(event)=> setEventType(event.target.value)}
+                                        label="Event type"
+                                    >
+                                        <MenuItem value="">
+                                            <em>None</em>
+                                        </MenuItem>
+                                        <MenuItem value={"Wedding"}>Wedding</MenuItem>
+                                        <MenuItem value={"Bar Mitzvah"}>Bar Mitzvah</MenuItem>
+                                        <MenuItem value={"Brit milah"}>Brit milah</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </div>
+                            <div>
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <KeyboardDatePicker
                                         disableToolbar
                                         variant="inline"
-                                        format="MM/dd/yyyy"
+                                        format="dd/MM/yyyy"
                                         margin="normal"
                                         id="date-picker-inline"
                                         label="Event date"
                                         value={eventDate}
-                                        onChange={() => setEventDate(eventDate)}
+                                        onChange={(eventDate) => setEventDate(eventDate)}
                                         KeyboardButtonProps={{
                                             "aria-label": "change date",
                                         }}
@@ -135,7 +184,7 @@ export default function MyEventDetails() {
                                     }}
                                 />
                             </div>
-                            <div className="second-row">
+                            <div>
                                 <TextField label="Location of the event" variant="filled" style={{marginRight: "5px"}}
                                            value={locationName}
                                            onChange={(event) => setLocationName(event.target.value)}/>
@@ -147,6 +196,7 @@ export default function MyEventDetails() {
                                     Save
                                 </Button>
                             </div>
+                            <SnackbarWithPosition  alertPopup={alertPopup}  closeAlert={closeAlert} message="Saved" severity="success"/>
                         </form>
                     </Paper>
                 </Grid>

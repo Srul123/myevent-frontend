@@ -1,0 +1,6 @@
+.top-title-page {
+  display: flex;
+  & > div {
+    flex: 1;
+  }
+}

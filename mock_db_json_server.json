@@ -72,12 +72,12 @@
       "password": "123456",
       "id": 9,
       "details": {
-        "eventName": "fsdf123",
-        "eventDate": "2020-09-28T21:00:00.000Z",
-        "eventTime": "12:00",
+        "eventName": "Wedding Srul & Inbal",
+        "eventType": "Bar Mitzvah",
+        "eventDate": "2020-11-28T06:30:00.000Z",
         "location": {
-          "locationName": "fsd",
-          "locationLink": "fds"
+          "locationName": "Kibbutz Givat Brener",
+          "locationLink": "fsdfdfsdfds"
         }
       }
     },
@@ -94,6 +94,13 @@
       "email": "ih5938133@gmail.com",
       "password": "12345678",
       "id": 12
+    },
+    {
+      "firstName": "test",
+      "lastName": "mnre",
+      "email": "ih5938133@gmail.com",
+      "password": "1234564321",
+      "id": 13
     }
   ],
   "inviters": [

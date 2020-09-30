@@ -23,7 +23,7 @@ import MarkunreadMailboxOutlinedIcon from "@material-ui/icons/MarkunreadMailboxO
 import BorderVerticalOutlinedIcon from "@material-ui/icons/BorderVerticalOutlined";
 import NotificationsActiveOutlinedIcon from "@material-ui/icons/NotificationsActiveOutlined";
 import SettingsApplicationsOutlinedIcon from "@material-ui/icons/SettingsApplicationsOutlined";
-import { NavLink } from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import {useDispatch } from "react-redux";
 
 import "./AppBarLoginWithIcons.scss";
@@ -168,7 +168,9 @@ export default function DrawerWithIcons(props) {
             }}
           >
             <Typography variant="h6" noWrap>
-              My Event
+              <Link style={{textDecoration:"none", color:"white"}} to={"/"}>
+                My Event
+              </Link>
             </Typography>
             <Button color="inherit" onClick={()=> logout()}>Logout</Button>
           </div>
