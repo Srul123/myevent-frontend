@@ -6,6 +6,7 @@ import SignUp from "./sign-up/SignUp";
 import SignIn from "./sign-in/SignIn";
 import MyProfile from "./my-profile/MyProfile";
 import MyEventDetails from "./my-event-details/MyEventDetails";
+import InviteManagement from "./invite-management/InviteManagement";
 import Container from '@material-ui/core/Container';
 
 
@@ -21,27 +22,29 @@ export default function Views() {
         <>
             <Route path={"/myprofile"} exact component={MyProfile}/>
             <Route path={"/event-details"} exact component={MyEventDetails}/>
+            <Route path={"/invite-management"} exact component={InviteManagement}/>
         </>
     );
 
     return (
         <Router>
-            <Header/>
-            <Container fixed>
+            <div style={{position: "relative", minHeight: "100vh"}}>
+                <Header/>
+                <Container fixed>
 
-                <Switch>
-                    <Route path={"/signup"} component={SignUp}/>
-                    <Route path={"/signin"} component={SignIn}/>
-                    <Route path={"/"} exact component={HomePage}/>
-                    {isLoggedIn ?
-                        (isLoginRoutesComps) :
-                        (<Redirect to="/signin"/>)}
-                    <Route render={() => <h1>Not found</h1>}/>
+                    <Switch>
+                        <Route path={"/signup"} component={SignUp}/>
+                        <Route path={"/signin"} component={SignIn}/>
+                        <Route path={"/"} exact component={InviteManagement}/>
+                        {isLoggedIn ?
+                            (isLoginRoutesComps) :
+                            (<Redirect to="/signin"/>)}
+                        <Route render={() => <h1>Not found</h1>}/>
 
-                </Switch>
-            </Container>
-
-            <Footer/>
+                    </Switch>
+                </Container>
+                <Footer/>
+            </div>
         </Router>
     );
 }

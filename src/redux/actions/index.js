@@ -1,8 +1,10 @@
 
 import userActions from './userActions'
+import invitersActions from './invitersActions'
 
 const allActions = {
-    userActions
+    userActions,
+    invitersActions
 }
 
 export default allActions

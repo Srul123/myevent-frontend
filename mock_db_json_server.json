@@ -73,7 +73,7 @@
       "id": 9,
       "details": {
         "eventName": "Wedding Srul & Inbal",
-        "eventType": "Bar Mitzvah",
+        "eventType": "Wedding",
         "eventDate": "2020-11-28T06:30:00.000Z",
         "location": {
           "locationName": "Kibbutz Givat Brener",
@@ -103,18 +103,84 @@
       "id": 13
     }
   ],
-  "inviters": [
+  "groups": [
     {
       "id": 1,
       "user_id": 1,
-      "name": "ענבל הייבלום",
-      "date": "14.09.2020"
+      "groupName": "Friends from high school",
+      "quantityOfInviters": 0,
+      "approvedArrivals": 0,
+      "dateCreated": "14.09.2020"
     },
     {
       "id": 2,
       "user_id": 1,
-      "name": "לאו איגל",
-      "date": "14.09.2020"
+      "groupName": "Friends from Army",
+      "quantityOfInviters": 0,
+      "approvedArrivals": 0,
+      "dateCreated": "14.09.2020"
+    },
+    {
+      "id": 3,
+      "user_id": 1,
+      "groupName": "Family Inbal",
+      "quantityOfInviters": 0,
+      "approvedArrivals": 0,
+      "dateCreated": "14.09.2020"
+    }
+  ],
+  "inviters": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "fullName": "Inbal Heiblum",
+      "phoneNumber": "0506803232",
+      "emailAddress": "inbal@gmail.com",
+      "groupId": "",
+      "groupName": "Friends from high school",
+      "numberOfGuests": 2,
+      "needRide": false,
+      "alreadyApprove": false,
+      "dateCreated": "14.09.2020"
+    },
+    {
+      "id": 2,
+      "user_id": 9,
+      "fullName": "Mike Nag",
+      "phoneNumber": "0546565858",
+      "emailAddress": "mike@gmail.com",
+      "groupId": "",
+      "groupName": "Friends from high school",
+      "numberOfGuests": 3,
+      "needRide": false,
+      "alreadyApprove": false,
+      "dateCreated": "14.09.2020"
+    },
+    {
+      "id": 3,
+      "user_id": 9,
+      "fullName": "Ran Vahaba",
+      "phoneNumber": "05356969699",
+      "emailAddress": "ran@gmail.com",
+      "groupId": "",
+      "groupName": "Friends from high school",
+      "numberOfGuests": 2,
+      "needRide": false,
+      "alreadyApprove": false,
+      "dateCreated": "14.09.2020"
+    },
+    {
+      "id": 4,
+      "user_id": 9,
+      "fullName": "Inbal Vahaba",
+      "phoneNumber": "05356969699",
+      "emailAddress": "ran@gmail.com",
+      "groupId": "",
+      "groupName": "Friends from high school",
+      "numberOfGuests": 2,
+      "needRide": false,
+      "alreadyApprove": false,
+      "dateCreated": "14.09.2020"
     }
   ]
 }

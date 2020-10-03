@@ -11,7 +11,6 @@ import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import {NavLink} from "react-router-dom";
-// import {NavLink, useHistory} from "react-router-dom";
 import axios from "axios";
 import AlertsMessage from "../../alerts/AlertsMessage";
 import LoaderSpinner from "../../loader-spinner/LoaderSpinner";
@@ -21,6 +20,7 @@ import {
     isAuthenticatedUser,
     validateInputsSignIn,
 } from "../../../services/validationsFunctions";
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -43,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn(props) {
-    // const history = useHistory();
     const classes = useStyles();
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -53,6 +52,8 @@ export default function SignIn(props) {
     const dispatch = useDispatch();
     const setLoginUser = (user) =>
         dispatch(allActions.userActions.loginUser(user));
+    const getInvitersList = () =>
+        dispatch(allActions.invitersActions.getInvitersList());
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -77,6 +78,7 @@ export default function SignIn(props) {
                 return;
             } else if (isAuthenticated) {
                 setLoginUser(isAuthenticated);
+                getInvitersList();
                 setLoading(false);
                 props.history.push("/myprofile");
                 // history.push("/myprofile");
@@ -145,7 +147,7 @@ export default function SignIn(props) {
                     >
                         Sign In
                     </Button>
-                    <Grid container>
+                    <Grid>
                         <Grid item xs>
                             <NavLink to="/">Forgot password?</NavLink>
                         </Grid>

@@ -7,6 +7,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 
 import { Link } from "react-router-dom";
+import Button from "@material-ui/core/Button";
 
 function ElevationScroll(props) {
   const { children, window } = props;
@@ -39,10 +40,22 @@ export default function AppBarMain(props) {
       <CssBaseline />
       <ElevationScroll {...props}>
         <AppBar>
-          <Toolbar>
+          <Toolbar style={{display:"flex", justifyContent:"space-between"}}>
             <Typography variant="h6">
               <Link to="/" style={{color:"white", textDecoration:"none"}}  >My Event</Link>
             </Typography>
+            <div>
+              <Button color="inherit" >
+                <Link style={{textDecoration:"none", color:"white"}} to={"/signup"}>
+                 Sign up
+                </Link>
+              </Button>
+              <Button color="inherit" >
+                <Link style={{textDecoration:"none", color:"white"}} to={"/signin"}>
+                  Sign in
+                </Link>
+              </Button>
+            </div>
           </Toolbar>
         </AppBar>
       </ElevationScroll>

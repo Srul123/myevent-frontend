@@ -105,9 +105,9 @@ const optionRoutes = [
     route: "/event-details",
   },
   {
-    title: "Inviters Managment",
+    title: "Inviters Management",
     icon: <PeopleOutlineIcon />,
-    route: "1",
+    route: "invite-management",
   },
   {
     title: "RSVP",

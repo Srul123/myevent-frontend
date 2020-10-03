@@ -30,13 +30,15 @@ export default function MyProfile() {
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
                         <div className="top-title-page">
-                            <div>
-                                <Typography variant="h3">{user.details.eventName}</Typography>
+                            <div style={{borderRight: "1px solid black"}}>
+                                <Typography variant="h4">{user.details.eventName}</Typography>
                             </div>
                             <div>
                                 <Typography variant="h6">Event
-                                    date: {Moment(eventDate).format('dd mm YYYY')}</Typography>
-                                <Typography variant="h6">Event start: <Countdown date={eventDate.getTime()}/>
+                                    date: {Moment(eventDate).format('DD.MM.YYYY')}</Typography>
+                                <Typography variant="h6">Event
+                                    Time: {Moment(eventDate).format('hh:mm')}</Typography>
+                                <Typography variant="h6">Event start in: <Countdown date={eventDate.getTime()}/>
                                 </Typography>
 
                             </div>

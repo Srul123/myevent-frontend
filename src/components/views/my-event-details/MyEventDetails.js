@@ -62,7 +62,6 @@ export default function MyEventDetails() {
     const currentlyDate = new Date(currently.getFullYear() + "-" +
         (currently.getMonth() + 1) + "-" +
         currently.getDate());
-    debugger;
     const initDate = user.details ? user.details.eventDate : currentlyDate;
     const [eventDate, setEventDate] = React.useState(new Date(initDate));
     const initTime = Moment(initDate).format('HH:mm');
