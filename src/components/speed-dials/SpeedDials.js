@@ -14,14 +14,16 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1, 0),
     },
     speedDial: {
-        position: 'absolute',
-        '&.MuiSpeedDial-directionUp, &.MuiSpeedDial-directionLeft': {
-            right: theme.spacing(2),
-        },
-        '&.MuiSpeedDial-directionDown, &.MuiSpeedDial-directionRight': {
-            top: theme.spacing(2),
-            left: theme.spacing(2),
-        },
+        position: 'fixed',
+        left: '90%',
+        top: '15vh'
+        // '&.MuiSpeedDial-directionUp, &.MuiSpeedDial-directionLeft': {
+        //     right: theme.spacing(2),
+        // },
+        // '&.MuiSpeedDial-directionDown, &.MuiSpeedDial-directionRight': {
+        //     top: theme.spacing(2),
+        //     left: theme.spacing(2),
+        // },
     },
 }));
 
@@ -35,7 +37,7 @@ const actions = [
 
 export default function SpeedDials() {
     const classes = useStyles();
-    const [direction, setDirection] = React.useState('up');
+    const [direction, setDirection] = React.useState('down');
     const [open, setOpen] = React.useState(false);
     const [hidden, setHidden] = React.useState(false);
 
@@ -66,6 +68,7 @@ export default function SpeedDials() {
                     onOpen={handleOpen}
                     open={open}
                     direction={direction}
+
                 >
                     {actions.map((action) => (
                         <SpeedDialAction

@@ -1,4 +1,6 @@
 import React from "react";
+import { useHistory } from 'react-router-dom'
+
 import {makeStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -20,6 +22,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import SnackbarWithPosition from "../../alerts/SnackbarWithPosition";
+import EventOwners from "../../event-owners/EventOwners";
+// import AutocompleteGoogleMaps from "../../autocomplete-searchs/AutocompleteGoogleMaps";
 
 
 import "./MyEventDetails.scss";
@@ -44,13 +48,17 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function MyEventDetails() {
+export default function MyEventDetails(props) {
     const classes = useStyles();
+
     const user = useSelector((state) =>  state.userReducer.user);
 
     const dispatch = useDispatch();
     const updateUserDetails = (user) =>
         dispatch(allActions.userActions.updateUserDetails(user));
+
+    const initEventOwners = user.details ? user.details.eventOwners : [];
+    const [eventOwners, setEventOwners] = React.useState(initEventOwners);
 
     const initEventName = user.details ? user.details.eventName : "";
     const [eventName, setEventName] = React.useState(initEventName);
@@ -86,6 +94,7 @@ export default function MyEventDetails() {
         let dateWithTime = Moment(`${date} ${selectedTime}`);
         dateWithTime = new Date(dateWithTime);
         const userDetails = {
+            eventOwners,
             eventName,
             eventType,
             eventDate: dateWithTime,
@@ -124,7 +133,12 @@ export default function MyEventDetails() {
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
                         <form className={classes.form} noValidate autoComplete="off">
-                            <div className="first-row">
+                            <div>
+                                <FormControl variant="outlined" className={classes.formControl}>
+                                <EventOwners eventOwners={eventOwners} setEventOwners={setEventOwners} defaultUser={`${user.firstName} ${user.lastName}`}/>
+                                </FormControl>
+                            </div>
+                            <div>
                                 <TextField
                                     className={"eventName"}
                                     id="eventName"
@@ -187,12 +201,22 @@ export default function MyEventDetails() {
                                 <TextField label="Location of the event" variant="filled" style={{marginRight: "5px"}}
                                            value={locationName}
                                            onChange={(event) => setLocationName(event.target.value)}/>
+                                {/*<AutocompleteGoogleMaps />*/}
                                 <TextField label="Link to Waze/Google" variant="filled" style={{marginLeft: "5px"}}
                                            value={locationLink} onChange={(event => setLocationLink(event.target.value))}/>
                             </div>
                             <div>
                                 <Button variant="contained" color="primary" onClick={handleSubmit}>
                                     Save
+                                </Button>
+                                <Button variant="contained" color="secondary" style={{marginLeft:"5px"}} onClick={()=>{
+                                    console.log(props);
+                                    props.history.push("/myprofile");
+                                    setTimeout(()=>{
+                                        props.history.replace("/event-details");
+                                    }, 0);
+                                }}>
+                                    Cancel
                                 </Button>
                             </div>
                             <SnackbarWithPosition  alertPopup={alertPopup}  closeAlert={closeAlert} message="Saved" severity="success"/>

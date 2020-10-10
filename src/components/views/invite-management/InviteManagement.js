@@ -12,6 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import {useSelector} from "react-redux";
 import EnhancedTable from "../../lists-and-tables/EnhancedTable";
+import AutocompleteSearchCheckboxesTags from "../../autocomplete-searchs/AutocompleteSearchCheckboxesTags";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -62,43 +63,14 @@ export default function InviteManagement() {
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
                             <Grid item xs={12} className="top-title-page">
-                                <AutocompleteSearchNormal invitesList={invitersList}/>
+                                <AutocompleteSearchNormal invitesList={invitersList}
+                                                          label={"Search for inviter by name or phone number"}
+                                />
                             </Grid>
                             <Grid item xs={12}>
-                                <FormControl className={classes.formControl}>
-                                    <InputLabel id="simple-select-helper-label-group">Group name</InputLabel>
-                                    <Select
-                                        labelId="simple-select-helper-label-group"
-                                        id="simple-select-helper-group"
-                                        value={groupToSearch}
-                                        onChange={(event => setGroupToSearch(event.target.value))}
-                                    >
-                                        <MenuItem value="">
-                                            <em>None</em>
-                                        </MenuItem>
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
-                                    </Select>
-                                    <FormHelperText>Filter by group name</FormHelperText>
-                                </FormControl>
-                                <FormControl className={classes.formControl}>
-                                    <InputLabel id="simple-select-helper-label-phone">Phone number</InputLabel>
-                                    <Select
-                                        labelId="simple-select-helper-label-phone"
-                                        id="simple-select-helper-phone"
-                                        value={phoneToSearch}
-                                        onChange={(event => setPhoneToSearch(event.target.value))}
-                                    >
-                                        <MenuItem value="">
-                                            <em>None</em>
-                                        </MenuItem>
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
-                                    </Select>
-                                    <FormHelperText>Filter by phone number</FormHelperText>
-                                </FormControl>
+                                {/*<FormControl className={classes.formControl}>*/}
+                                    <AutocompleteSearchCheckboxesTags />
+                                {/*</FormControl>*/}
                             </Grid>
                         </Paper>
                     </Grid>
@@ -109,7 +81,6 @@ export default function InviteManagement() {
                 </Grid>
 
             </div>
-
 
 
         </React.Fragment>

@@ -72,6 +72,12 @@
       "password": "123456",
       "id": 9,
       "details": {
+        "eventOwners": [
+          {
+            "name": "Inbal Oved",
+            "id": 1
+          }
+        ],
         "eventName": "Wedding Srul & Inbal",
         "eventType": "Wedding",
         "eventDate": "2020-11-28T06:30:00.000Z",
