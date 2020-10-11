@@ -42,6 +42,12 @@ export default function EventOwners(props) {
         }
         setEventOwners([...eventOwners, newOwnerToAdd]);
         setNewOwner("");
+        setEnableAddNewUser(true);
+    };
+
+    const editEventOwnerName = (event) => {
+        console.log("event");
+        console.log(event);
     };
 
 
@@ -66,10 +72,11 @@ export default function EventOwners(props) {
                     </TableRow>
                     {eventOwners.length > 0 && (
                         eventOwners.map((row, index) => (
-                            <TableRow key={row.name}>
+                            <TableRow key={row.id}>
                                 <TableCell component="th" scope="row">
                                     <div style={{display: "flex", justifyContent: "space-between"}}>
                                     <span>
+                                        {/*contentEditable="true" onClick={(event)=> editEventOwnerName(event)}*/}
                                         {row.name}
                                     </span>
                                         <Tooltip title="Delete">

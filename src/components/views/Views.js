@@ -35,7 +35,7 @@ export default function Views() {
                     <Switch>
                         <Route path={"/signup"} component={SignUp}/>
                         <Route path={"/signin"} component={SignIn}/>
-                        <Route path={"/"} exact component={InviteManagement}/>
+                        <Route path={"/"} exact component={HomePage}/>
                         {isLoggedIn ?
                             (isLoginRoutesComps) :
                             (<Redirect to="/signin"/>)}

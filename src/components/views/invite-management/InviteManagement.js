@@ -67,9 +67,12 @@ export default function InviteManagement() {
                                                           label={"Search for inviter by name or phone number"}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={12} >
                                 {/*<FormControl className={classes.formControl}>*/}
+                                <div className="wrapper-filter" style={{marginTop:"2vh"}}>
                                     <AutocompleteSearchCheckboxesTags />
+
+                                </div>
                                 {/*</FormControl>*/}
                             </Grid>
                         </Paper>

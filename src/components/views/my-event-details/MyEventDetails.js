@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from 'react-router-dom'
 
 import {makeStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -42,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
         width: 200,
+    },
+    form: {
+        paddingBottom: "2vh",
     },
     formControl: {
         minWidth: 120,
@@ -147,7 +149,7 @@ export default function MyEventDetails(props) {
                                     value={eventName}
                                     onChange={(event => setEventName(event.target.value))}
                                 />
-                                <FormControl variant="outlined" className={classes.formControl}>
+                                <FormControl variant="outlined" className={classes.formControl} style={{textAlign:"initial"}}>
                                     <InputLabel id="demo-simple-select-outlined-label">Event type</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-outlined-label"

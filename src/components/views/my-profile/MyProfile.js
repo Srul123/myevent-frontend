@@ -38,7 +38,9 @@ export default function MyProfile() {
                                     date: {Moment(eventDate).format('DD.MM.YYYY')}</Typography>
                                 <Typography variant="h6">Event
                                     Time: {Moment(eventDate).format('hh:mm')}</Typography>
-                                <Typography variant="h6">Event start in: <Countdown date={eventDate.getTime()}/>
+                                <Typography variant="h6">{"Event start in: "}
+                                    <Countdown date={eventDate.getTime()}/>
+                                    {" days"}
                                 </Typography>
 
                             </div>
