@@ -8,6 +8,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import PrintIcon from '@material-ui/icons/Print';
 import ShareIcon from '@material-ui/icons/Share';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import PermContactCalendarOutlinedIcon from '@material-ui/icons/PermContactCalendarOutlined';
 
 const useStyles = makeStyles((theme) => ({
     radioGroup: {
@@ -28,33 +29,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const actions = [
-    { icon: <FileCopyIcon />, name: 'Copy' },
-    { icon: <SaveIcon />, name: 'Save' },
-    { icon: <PrintIcon />, name: 'Print' },
-    { icon: <ShareIcon />, name: 'Share' },
-    { icon: <FavoriteIcon />, name: 'Like' },
+    { icon: <PermContactCalendarOutlinedIcon />, name: 'Add new inviter',action: "addInviter" },
+    { icon: <SaveIcon />, name: 'My groups',action: "openGroups" },
+    { icon: <PrintIcon />, name: 'Print',action: "openGroups" },
+    { icon: <ShareIcon />, name: 'Share',action: "openGroups" },
+    { icon: <FavoriteIcon />, name: 'Like' ,action: "openGroups"},
 ];
 
-export default function SpeedDials() {
+export default function SpeedDials(props) {
+    const {setOpenInviterDialog, openSpeedDials,setSpeedDials } = props;
     const classes = useStyles();
-    const [direction, setDirection] = React.useState('down');
-    const [open, setOpen] = React.useState(false);
-    const [hidden, setHidden] = React.useState(false);
 
-    const handleDirectionChange = (event) => {
-        setDirection(event.target.value);
-    };
 
-    const handleHiddenChange = (event) => {
-        setHidden(event.target.checked);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
+    const handleClose = (event, action) => {
+        console.log("action");
+        console.log(action);
+        setSpeedDials(false);
+        if(action==="addInviter"){
+            setOpenInviterDialog(true);
+        }
     };
 
     const handleOpen = () => {
-        setOpen(true);
+        setSpeedDials(true);
     };
 
     return (
@@ -62,12 +59,12 @@ export default function SpeedDials() {
                 <SpeedDial
                     ariaLabel="SpeedDial example"
                     className={classes.speedDial}
-                    hidden={hidden}
+                    hidden={false}
                     icon={<SpeedDialIcon />}
                     onClose={handleClose}
                     onOpen={handleOpen}
-                    open={open}
-                    direction={direction}
+                    open={openSpeedDials}
+                    direction={'down'}
 
                 >
                     {actions.map((action) => (
@@ -75,7 +72,9 @@ export default function SpeedDials() {
                             key={action.name}
                             icon={action.icon}
                             tooltipTitle={action.name}
-                            onClick={handleClose}
+                            onClick={(event)=>{
+                                handleClose(event, action.action)
+                            }}
                         />
                     ))}
                 </SpeedDial>

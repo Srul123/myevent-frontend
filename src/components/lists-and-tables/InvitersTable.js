@@ -50,7 +50,6 @@ function stableSort(array, comparator) {
 }
 
 function EnhancedTableHead(props) {
-    console.log(props);
     const {classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCell} = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
@@ -189,8 +188,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function EnhancedTable(props) {
-    console.log(props);
+export default function InvitersTable(props) {
     const {rows, title, headCell} = props;
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
@@ -299,18 +297,18 @@ export default function EnhancedTable(props) {
                                             <TableCell component="th" id={labelId} scope="row" padding="none">
                                                 {fullName}
                                             </TableCell>
-                                            <TableCell align="right">{groupName}</TableCell>
-                                            <TableCell align="right">
+                                            <TableCell >{groupName}</TableCell>
+                                            <TableCell>
                                                 {alreadyApprove ? (
-                                                    <span style={{textAlign:"center"}}>Yes</span>
+                                                    <span>Yes</span>
                                                 ) : (
                                                     <span>No</span>
                                                 )}
                                             </TableCell>
-                                            <TableCell align="right">{phoneNumber}</TableCell>
-                                            <TableCell align="right">{emailAddress}</TableCell>
-                                            <TableCell align="right">{numberOfGuests}</TableCell>
-                                            <TableCell align="right">
+                                            <TableCell >{phoneNumber}</TableCell>
+                                            <TableCell >{emailAddress}</TableCell>
+                                            <TableCell >{numberOfGuests}</TableCell>
+                                            <TableCell >
                                                 {needRide ? (
                                                 <span>Yes</span>
                                             ) : (

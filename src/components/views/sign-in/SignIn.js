@@ -54,6 +54,8 @@ export default function SignIn(props) {
         dispatch(allActions.userActions.loginUser(user));
     const getInvitersList = () =>
         dispatch(allActions.invitersActions.getInvitersList());
+    const getGroupList = () =>
+        dispatch(allActions.groupsActions.getGroupList());
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -79,6 +81,7 @@ export default function SignIn(props) {
             } else if (isAuthenticated) {
                 setLoginUser(isAuthenticated);
                 getInvitersList();
+                getGroupList();
                 setLoading(false);
                 props.history.push("/myprofile");
                 // history.push("/myprofile");

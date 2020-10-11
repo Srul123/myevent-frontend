@@ -32,6 +32,7 @@ export default function MyProfile() {
                         <div className="top-title-page">
                             <div style={{borderRight: "1px solid black"}}>
                                 <Typography variant="h4">{user.details.eventName}</Typography>
+                                <Typography variant="h6">location: {user.details.location.locationName}</Typography>
                             </div>
                             <div>
                                 <Typography variant="h6">Event

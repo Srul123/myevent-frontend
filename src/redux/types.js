@@ -12,6 +12,8 @@ export const CLEAR_FILTER_LIST = "CLEAR_FILTER_LIST";
 
 
 // Groups
+export const GET_GROUPS = "GET_GROUPS";
+export const ERROR_GROUPS = "ERROR_GROUPS";
 
 
 // base URL

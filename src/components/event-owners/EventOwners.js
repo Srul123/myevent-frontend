@@ -23,6 +23,8 @@ const useStyles = makeStyles({
 
 export default function EventOwners(props) {
     const {eventOwners, setEventOwners, defaultUser} = props;
+    const eventOwnersToShow = JSON.parse(JSON.stringify(eventOwners));
+    eventOwnersToShow.shift();
     const classes = useStyles();
     const [newOwner, setNewOwner] = React.useState("");
     const [enableAddNewUser, setEnableAddNewUser] = React.useState(true);
@@ -71,7 +73,7 @@ export default function EventOwners(props) {
                         </TableCell>
                     </TableRow>
                     {eventOwners.length > 0 && (
-                        eventOwners.map((row, index) => (
+                        eventOwnersToShow.map((row, index) => (
                             <TableRow key={row.id}>
                                 <TableCell component="th" scope="row">
                                     <div style={{display: "flex", justifyContent: "space-between"}}>

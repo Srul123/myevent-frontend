@@ -11,8 +11,10 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import {useSelector} from "react-redux";
-import EnhancedTable from "../../lists-and-tables/EnhancedTable";
+import InvitersTable from "../../lists-and-tables/InvitersTable";
 import AutocompleteSearchCheckboxesTags from "../../autocomplete-searchs/AutocompleteSearchCheckboxesTags";
+import NativeSelect from "@material-ui/core/NativeSelect";
+import InviterDialog from "../../dialogs/InviterDialog";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
     },
 }));
 
@@ -47,19 +52,31 @@ function prepareTableHeadDataForComp() {
 export default function InviteManagement() {
 
     const classes = useStyles();
-    const [groupToSearch, setGroupToSearch] = React.useState('');
-    const [phoneToSearch, setPhoneToSearch] = React.useState('');
+    const [eventOwner, setEventOwner] = React.useState('');
+    const [openInviterDialog, setOpenInviterDialog] = React.useState(false);
+    const [openSpeedDials, setSpeedDials] = React.useState(false);
     const invitersListFilter = useSelector(state => state.invitersReducer.invitersListFiltered);
     const invitersList = useSelector(state => state.invitersReducer.invitersList);
-    console.log("invitersList");
-    console.log(invitersList);
+    const user = useSelector(state => state.userReducer.user);
+    const eventOwnersList = user.details.eventOwners;
+
+    const groups = useSelector(state => state.groupReducer.groupList);
+    const [groupToSearch, setGroupToSearch] = React.useState('');
+
     const tableHeadData = prepareTableHeadDataForComp();
+
+    const handleSelectEventOwner = (event) =>{
+        console.log("event is:");
+        console.log(event.target.value);
+    };
+
 
     return (
         <React.Fragment>
-            <SpeedDials/>
+            <SpeedDials openSpeedDials={openSpeedDials} setSpeedDials={setSpeedDials} setOpenInviterDialog={setOpenInviterDialog}  />
             <div className={classes.root} style={{marginTop: "80px"}}>
                 <Grid container spacing={5}>
+                    <InviterDialog openInviterDialog={openInviterDialog} setOpenInviterDialog={setOpenInviterDialog} setSpeedDials={setSpeedDials}/>
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
                             <Grid item xs={12} className="top-title-page">
@@ -67,18 +84,37 @@ export default function InviteManagement() {
                                                           label={"Search for inviter by name or phone number"}
                                 />
                             </Grid>
-                            <Grid item xs={12} >
+                            <Grid item xs={12}>
                                 {/*<FormControl className={classes.formControl}>*/}
-                                <div className="wrapper-filter" style={{marginTop:"2vh"}}>
-                                    <AutocompleteSearchCheckboxesTags />
-
+                                <div className="wrapper-filter" style={{marginTop: "2vh", display:"flex"}}>
+                                    <div style={{flex:"1"}}>
+                                        <AutocompleteSearchCheckboxesTags groups={groups}/>
+                                    </div>
+                                    <div  style={{flex:"1"}}>
+                                        <FormControl className={classes.formControl}>
+                                            <NativeSelect
+                                                value={eventOwner}
+                                                onChange={(event) => {
+                                                    setEventOwner(event.target.value);
+                                                    handleSelectEventOwner(event);
+                                                }}
+                                                name="eventOwner"
+                                                className={classes.selectEmpty}
+                                                inputProps={{'aria-label': 'eventOwner'}}
+                                            >
+                                                <option value="*">All</option>
+                                                {eventOwnersList.map((owner) => <option key={owner.id}  value={owner.id}>{owner.name}</option>)}
+                                            </NativeSelect>
+                                            <FormHelperText>Filter by event Owner</FormHelperText>
+                                        </FormControl>
+                                    </div>
                                 </div>
                                 {/*</FormControl>*/}
                             </Grid>
                         </Paper>
                     </Grid>
                     <Grid item xs={12}>
-                        <EnhancedTable title={"Inviters List"} headCell={tableHeadData} rows={invitersListFilter}/>
+                        <InvitersTable title={"Inviters List"} headCell={tableHeadData} rows={invitersListFilter}/>
                     </Grid>
 
                 </Grid>

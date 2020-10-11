@@ -1,71 +1,6 @@
 {
   "users": [
     {
-      "id": 1,
-      "firstName": "Israel",
-      "lastName": "Heiblum",
-      "email": "srul@gmail.com",
-      "password": "srul123"
-    },
-    {
-      "firstName": "fdsfds",
-      "lastName": "fsdfds",
-      "email": "ih5938133@gmail.com",
-      "password": "fdsfdsfdsfsdf",
-      "details": {
-        "eventName": "",
-        "eventDate": "",
-        "eventTime": "",
-        "eventLocation": {
-          "locationName": "",
-          "locationLink": ""
-        }
-      },
-      "id": 2
-    },
-    {
-      "firstName": "dddd",
-      "lastName": "aaaaa",
-      "email": "ih5938133@gmail.com",
-      "password": "13245678",
-      "id": 3
-    },
-    {
-      "firstName": "gfd",
-      "lastName": "gdfgdgdf",
-      "email": "ih5938133@gmail.com",
-      "password": "fsdfsdfsdfsdfs",
-      "id": 4
-    },
-    {
-      "firstName": "eqweqwe",
-      "lastName": "eqweqweqw",
-      "email": "ih5938133@gmail.com",
-      "password": "eqeqwewqeqweq",
-      "id": 5
-    },
-    {
-      "firstName": "fsfdsfd",
-      "lastName": "fsdfsf",
-      "email": "ih5938133@gmail.com",
-      "password": "fsdfsdfdsfsfsd",
-      "id": 6
-    },
-    {
-      "firstName": "fsdfsfs",
-      "lastName": "fsdfdsfdf",
-      "email": "ih5938133@gmail.com",
-      "password": "fsdfsdfsdfsd",
-      "id": 7
-    },
-    {
-      "firstName": "fdsfdsfds",
-      "lastName": "dfsdsfsd",
-      "email": "ih5938133@gmail.com",
-      "password": "ffsdfdsfsdfdsf",
-      "id": 8
-    },
-    {
       "firstName": "Israel",
       "lastName": "Heiblum",
       "email": "ih5938133@gmail.com",
@@ -74,8 +9,16 @@
       "details": {
         "eventOwners": [
           {
-            "name": "Inbal Oved",
+            "name": "Israel Heiblum",
             "id": 1
+          },
+          {
+            "name": "Inbal Oved",
+            "id": 2
+          },
+          {
+            "name": "Dudu Topaz",
+            "id": 3
           }
         ],
         "eventName": "Wedding Srul & Inbal",
@@ -86,33 +29,12 @@
           "locationLink": "fsdfdfsdfds"
         }
       }
-    },
-    {
-      "firstName": "fSFSD",
-      "lastName": "FfSDFD",
-      "email": "ih5938133@gmail.com",
-      "password": "FDsfdfsdfsd",
-      "id": 10
-    },
-    {
-      "firstName": "hgjhgjh",
-      "lastName": "kljkjlj",
-      "email": "ih5938133@gmail.com",
-      "password": "12345678",
-      "id": 12
-    },
-    {
-      "firstName": "test",
-      "lastName": "mnre",
-      "email": "ih5938133@gmail.com",
-      "password": "1234564321",
-      "id": 13
     }
   ],
   "groups": [
     {
       "id": 1,
-      "user_id": 1,
+      "user_id": 9,
       "groupName": "Friends from high school",
       "quantityOfInviters": 0,
       "approvedArrivals": 0,
@@ -120,7 +42,7 @@
     },
     {
       "id": 2,
-      "user_id": 1,
+      "user_id": 9,
       "groupName": "Friends from Army",
       "quantityOfInviters": 0,
       "approvedArrivals": 0,
@@ -128,7 +50,7 @@
     },
     {
       "id": 3,
-      "user_id": 1,
+      "user_id": 9,
       "groupName": "Family Inbal",
       "quantityOfInviters": 0,
       "approvedArrivals": 0,
@@ -138,12 +60,14 @@
   "inviters": [
     {
       "id": 1,
-      "user_id": 1,
+      "user_id": 9,
       "fullName": "Inbal Heiblum",
       "phoneNumber": "0506803232",
       "emailAddress": "inbal@gmail.com",
-      "groupId": "",
+      "groupId": 1,
       "groupName": "Friends from high school",
+      "ownerName": "*",
+      "ownerId": "*",
       "numberOfGuests": 2,
       "needRide": false,
       "alreadyApprove": false,
@@ -155,8 +79,10 @@
       "fullName": "Mike Nag",
       "phoneNumber": "0546565858",
       "emailAddress": "mike@gmail.com",
-      "groupId": "",
+      "groupId": 1,
       "groupName": "Friends from high school",
+      "ownerName": "*",
+      "ownerId": "*",
       "numberOfGuests": 3,
       "needRide": false,
       "alreadyApprove": false,
@@ -168,7 +94,9 @@
       "fullName": "Ran Vahaba",
       "phoneNumber": "05356969699",
       "emailAddress": "ran@gmail.com",
-      "groupId": "",
+      "ownerName": "*",
+      "ownerId": "*",
+      "groupId": 1,
       "groupName": "Friends from high school",
       "numberOfGuests": 2,
       "needRide": false,
@@ -181,8 +109,10 @@
       "fullName": "Inbal Vahaba",
       "phoneNumber": "05356969699",
       "emailAddress": "ran@gmail.com",
-      "groupId": "",
-      "groupName": "Friends from high school",
+      "ownerName": "*",
+      "ownerId": "*",
+      "groupId": 2,
+      "groupName": "Friends from Army",
       "numberOfGuests": 2,
       "needRide": false,
       "alreadyApprove": false,
