@@ -65,7 +65,7 @@ export default function InviteManagement() {
 
     const tableHeadData = prepareTableHeadDataForComp();
 
-    const handleSelectEventOwner = (event) =>{
+    const handleSelectEventOwner = (event) => {
         console.log("event is:");
         console.log(event.target.value);
     };
@@ -73,10 +73,12 @@ export default function InviteManagement() {
 
     return (
         <React.Fragment>
-            <SpeedDials openSpeedDials={openSpeedDials} setSpeedDials={setSpeedDials} setOpenInviterDialog={setOpenInviterDialog}  />
+            <SpeedDials openSpeedDials={openSpeedDials} setSpeedDials={setSpeedDials}
+                        setOpenInviterDialog={setOpenInviterDialog}/>
             <div className={classes.root} style={{marginTop: "80px"}}>
                 <Grid container spacing={5}>
-                    <InviterDialog openInviterDialog={openInviterDialog} setOpenInviterDialog={setOpenInviterDialog} setSpeedDials={setSpeedDials}/>
+                    <InviterDialog openInviterDialog={openInviterDialog} setOpenInviterDialog={setOpenInviterDialog}
+                                   setSpeedDials={setSpeedDials}/>
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
                             <Grid item xs={12} className="top-title-page">
@@ -88,10 +90,13 @@ export default function InviteManagement() {
                                 {/*<FormControl className={classes.formControl}>*/}
                                 <div className="wrapper-filter" style={{marginTop: "2vh", display:"flex"}}>
                                     <div style={{flex:"1"}}>
-                                        <AutocompleteSearchCheckboxesTags groups={groups}/>
+                                        <FormControl className={classes.formControl}  style={{width: "100%"}}>
+
+                                            <AutocompleteSearchCheckboxesTags groups={groups}/>
+                                        </FormControl>
                                     </div>
-                                    <div  style={{flex:"1"}}>
-                                        <FormControl className={classes.formControl}>
+                                    <div style={{flex:"1"}}>
+                                        <FormControl  className={classes.formControl} style={{width: "80%"}}>
                                             <NativeSelect
                                                 value={eventOwner}
                                                 onChange={(event) => {
@@ -103,7 +108,8 @@ export default function InviteManagement() {
                                                 inputProps={{'aria-label': 'eventOwner'}}
                                             >
                                                 <option value="*">All</option>
-                                                {eventOwnersList.map((owner) => <option key={owner.id}  value={owner.id}>{owner.name}</option>)}
+                                                {eventOwnersList.map((owner) => <option key={owner.id}
+                                                                                        value={owner.id}>{owner.name}</option>)}
                                             </NativeSelect>
                                             <FormHelperText>Filter by event Owner</FormHelperText>
                                         </FormControl>

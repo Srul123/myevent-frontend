@@ -22,8 +22,7 @@ import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
 import MarkunreadMailboxOutlinedIcon from "@material-ui/icons/MarkunreadMailboxOutlined";
 import BorderVerticalOutlinedIcon from "@material-ui/icons/BorderVerticalOutlined";
 import NotificationsActiveOutlinedIcon from "@material-ui/icons/NotificationsActiveOutlined";
-import SettingsApplicationsOutlinedIcon from "@material-ui/icons/SettingsApplicationsOutlined";
-import {Link, NavLink} from "react-router-dom";
+import SettingsIcon from '@material-ui/icons/Settings';import {Link, NavLink} from "react-router-dom";
 import {useDispatch } from "react-redux";
 
 import "./AppBarLoginWithIcons.scss";
@@ -218,7 +217,7 @@ export default function DrawerWithIcons(props) {
             },
             {
               title: "Settings",
-              icon: <SettingsApplicationsOutlinedIcon />,
+              icon: <SettingsIcon />,
             },
           ].map((option, index) => (
             <ListItem button key={index}>

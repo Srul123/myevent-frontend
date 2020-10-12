@@ -14,6 +14,7 @@ import Header from "../layouts/header/Header";
 import Footer from "../layouts/footer/Footer";
 
 export default function Views() {
+
     const isLoggedIn = useSelector((state) => {
         return state.userReducer.login;
     });
