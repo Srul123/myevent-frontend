@@ -9,6 +9,10 @@
       "details": {
         "eventOwners": [
           {
+            "name": "None",
+            "id": 0
+          },
+          {
             "name": "Israel Heiblum",
             "id": 1
           },
@@ -29,9 +33,43 @@
           "locationLink": "fsdfdfsdfds"
         }
       }
+    },
+    {
+      "firstName": "Israel",
+      "lastName": "Heiblum",
+      "email": "test@gmail.com",
+      "password": "123456",
+      "details": {
+        "eventOwners": [
+          {
+            "name": "None",
+            "id": 0
+          },
+          {
+            "ame": "Israel Heiblum",
+            "id": 1
+          }
+        ],
+        "eventName": "Wedding JoJo and Halsra",
+        "eventType": "Wedding",
+        "eventDate": "2022-02-10T18:30:00.000Z",
+        "location": {
+          "locationName": "Tel Aviv",
+          "locationLink": ""
+        }
+      },
+      "id": 10
     }
   ],
   "groups": [
+    {
+      "id": 0,
+      "user_id": 9,
+      "groupName": "None",
+      "quantityOfInviters": 0,
+      "approvedArrivals": 0,
+      "dateCreated": "14.09.2020"
+    },
     {
       "id": 1,
       "user_id": 9,
@@ -66,8 +104,8 @@
       "emailAddress": "inbal@gmail.com",
       "groupId": 1,
       "groupName": "Friends from high school",
-      "ownerName": "*",
-      "ownerId": "*",
+      "ownerName": "None",
+      "ownerId": 0,
       "numberOfGuests": 2,
       "needRide": false,
       "alreadyApprove": false,
@@ -81,42 +119,72 @@
       "emailAddress": "mike@gmail.com",
       "groupId": 1,
       "groupName": "Friends from high school",
-      "ownerName": "*",
-      "ownerId": "*",
+      "ownerName": "None",
+      "ownerId": 0,
       "numberOfGuests": 3,
       "needRide": false,
       "alreadyApprove": false,
       "dateCreated": "14.09.2020"
     },
     {
-      "id": 3,
       "user_id": 9,
-      "fullName": "Ran Vahaba",
-      "phoneNumber": "05356969699",
-      "emailAddress": "ran@gmail.com",
-      "ownerName": "*",
-      "ownerId": "*",
-      "groupId": 1,
-      "groupName": "Friends from high school",
-      "numberOfGuests": 2,
+      "fullName": "test",
+      "phoneNumber": "",
+      "emailAddress": "",
+      "groupId": 0,
+      "groupName": "None",
+      "ownerName": "None",
+      "ownerId": 0,
+      "numberOfGuests": 1,
       "needRide": false,
+      "dateCreated": "14.09.2020",
       "alreadyApprove": false,
-      "dateCreated": "14.09.2020"
+      "id": 3
     },
     {
-      "id": 4,
       "user_id": 9,
-      "fullName": "Inbal Vahaba",
-      "phoneNumber": "05356969699",
-      "emailAddress": "ran@gmail.com",
-      "ownerName": "*",
-      "ownerId": "*",
-      "groupId": 2,
-      "groupName": "Friends from Army",
-      "numberOfGuests": 2,
+      "fullName": "testaa",
+      "phoneNumber": "",
+      "emailAddress": "",
+      "groupId": 0,
+      "groupName": "None",
+      "ownerName": "None",
+      "ownerId": 0,
+      "numberOfGuests": 1,
       "needRide": false,
+      "dateCreated": "14.09.2020",
       "alreadyApprove": false,
-      "dateCreated": "14.09.2020"
+      "id": 4
+    },
+    {
+      "user_id": 9,
+      "fullName": "asas",
+      "phoneNumber": "",
+      "emailAddress": "",
+      "groupId": 0,
+      "groupName": "None",
+      "ownerName": "None",
+      "ownerId": 0,
+      "numberOfGuests": 1,
+      "needRide": false,
+      "dateCreated": "14.09.2020",
+      "alreadyApprove": false,
+      "id": 5
+    },
+    {
+      "user_id": 9,
+      "fullName": "asasaa",
+      "phoneNumber": "",
+      "emailAddress": "",
+      "groupId": 0,
+      "groupName": "None",
+      "ownerName": "None",
+      "ownerId": 0,
+      "numberOfGuests": 1,
+      "needRide": false,
+      "dateCreated": "14.09.2020",
+      "alreadyApprove": false,
+      "id": 6
     }
   ]
 }

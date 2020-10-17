@@ -66,7 +66,26 @@ function SignUp() {
         firstName,
         lastName,
         email,
-        password
+        password,
+        details: {
+          eventOwners: [
+            {
+              name: "None",
+              id: 0
+            },
+            {
+              ame: `${firstName} ${lastName}`,
+              id: 1
+            }
+          ],
+          eventName: "",
+          eventType: "",
+          eventDate: Date(),
+          location: {
+            locationName: "",
+            locationLink: ""
+          }
+        }
       };
 
       try {

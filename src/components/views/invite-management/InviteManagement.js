@@ -14,7 +14,7 @@ import {useSelector} from "react-redux";
 import InvitersTable from "../../lists-and-tables/InvitersTable";
 import AutocompleteSearchCheckboxesTags from "../../autocomplete-searchs/AutocompleteSearchCheckboxesTags";
 import NativeSelect from "@material-ui/core/NativeSelect";
-import InviterDialog from "../../dialogs/InviterDialog";
+import AddInviterModal from "../../dialogs/add-inviter-modal/AddInviterModal";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -73,12 +73,11 @@ export default function InviteManagement() {
 
     return (
         <React.Fragment>
-            <SpeedDials openSpeedDials={openSpeedDials} setSpeedDials={setSpeedDials}
-                        setOpenInviterDialog={setOpenInviterDialog}/>
+            <SpeedDials setOpenInviterDialog={setOpenInviterDialog}/>
             <div className={classes.root} style={{marginTop: "80px"}}>
                 <Grid container spacing={5}>
-                    <InviterDialog openInviterDialog={openInviterDialog} setOpenInviterDialog={setOpenInviterDialog}
-                                   setSpeedDials={setSpeedDials}/>
+                    <AddInviterModal openInviterDialog={openInviterDialog} setOpenInviterDialog={setOpenInviterDialog}
+                                     setSpeedDials={setSpeedDials}/>
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
                             <Grid item xs={12} className="top-title-page">
@@ -87,7 +86,6 @@ export default function InviteManagement() {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                {/*<FormControl className={classes.formControl}>*/}
                                 <div className="wrapper-filter" style={{marginTop: "2vh", display:"flex"}}>
                                     <div style={{flex:"1"}}>
                                         <FormControl className={classes.formControl}  style={{width: "100%"}}>
@@ -107,7 +105,6 @@ export default function InviteManagement() {
                                                 className={classes.selectEmpty}
                                                 inputProps={{'aria-label': 'eventOwner'}}
                                             >
-                                                <option value="*">All</option>
                                                 {eventOwnersList.map((owner) => <option key={owner.id}
                                                                                         value={owner.id}>{owner.name}</option>)}
                                             </NativeSelect>
@@ -115,7 +112,6 @@ export default function InviteManagement() {
                                         </FormControl>
                                     </div>
                                 </div>
-                                {/*</FormControl>*/}
                             </Grid>
                         </Paper>
                     </Grid>

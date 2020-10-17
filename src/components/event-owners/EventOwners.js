@@ -23,8 +23,10 @@ const useStyles = makeStyles({
 
 export default function EventOwners(props) {
     const {eventOwners, setEventOwners, defaultUser} = props;
-    const eventOwnersToShow = JSON.parse(JSON.stringify(eventOwners));
-    eventOwnersToShow.shift();
+    let eventOwnersToShow = JSON.parse(JSON.stringify(eventOwners));
+    eventOwnersToShow = eventOwnersToShow.filter(owner=>{
+       return (owner.id!==0 && owner.id!==1);
+    });
     const classes = useStyles();
     const [newOwner, setNewOwner] = React.useState("");
     const [enableAddNewUser, setEnableAddNewUser] = React.useState(true);
@@ -78,7 +80,6 @@ export default function EventOwners(props) {
                                 <TableCell component="th" scope="row">
                                     <div style={{display: "flex", justifyContent: "space-between"}}>
                                     <span>
-                                        {/*contentEditable="true" onClick={(event)=> editEventOwnerName(event)}*/}
                                         {row.name}
                                     </span>
                                         <Tooltip title="Delete">

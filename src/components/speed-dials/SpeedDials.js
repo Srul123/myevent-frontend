@@ -36,7 +36,8 @@ const actions = [
 ];
 
 export default function SpeedDials(props) {
-    const {setOpenInviterDialog, openSpeedDials,setSpeedDials } = props;
+    const {setOpenInviterDialog} = props;
+    const [openSpeedDials,setSpeedDials] = React.useState(false);
     const classes = useStyles();
 
 

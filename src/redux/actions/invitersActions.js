@@ -1,4 +1,9 @@
-import {ERROR_INVITERS, GET_INVITERS, BASE_URL, SET_FILTER_LIST, CLEAR_FILTER_LIST} from "../types";
+import {ERROR_INVITERS,
+    GET_INVITERS,
+    ADD_INVITER,
+    BASE_URL,
+    SET_FILTER_LIST,
+    CLEAR_FILTER_LIST} from "../types";
 import axios from "axios";
 
 const getInvitersList = () => async dispatch => {
@@ -13,6 +18,22 @@ const getInvitersList = () => async dispatch => {
         dispatch({
             type: ERROR_INVITERS,
             payload: "Can't load inviters list",
+        });
+    }
+};
+
+const addInviter = (newInviter) => async dispatch => {
+    try {
+        const response = await axios.post(`${BASE_URL}/inviters`, newInviter);
+        console.log(response);
+        dispatch({
+            type: ADD_INVITER,
+            payload: response.data,
+        });
+    } catch (e) {
+        dispatch({
+            type: ERROR_INVITERS,
+            payload: "Can't add new inviter",
         });
     }
 };
@@ -43,6 +64,7 @@ const errorInInvitersActions = () => {
 
 export default {
     getInvitersList,
+    addInviter,
     errorInInvitersActions,
     setInvitersListFiltered,
     clearInvitersListFilter

@@ -1,5 +1,6 @@
 import {
     GET_INVITERS,
+    ADD_INVITER,
     ERROR_INVITERS,
     SET_FILTER_LIST,
     CLEAR_FILTER_LIST
@@ -20,6 +21,14 @@ const invitersReducer = (state = initialState, action) => {
                 invitersList: action.payload,
                 invitersListFiltered:action.payload
             };
+        case ADD_INVITER:
+            debugger;
+            const test = action.payload;
+            return {
+                ...state,
+                invitersListFiltered: [...state.invitersListFiltered, action.payload],
+                invitersList: [...state.invitersList,action.payload]
+            };
         case SET_FILTER_LIST:
             return {
                 ...state,
@@ -33,7 +42,7 @@ const invitersReducer = (state = initialState, action) => {
                 invitersListFiltered:state.invitersList
             };
         case ERROR_INVITERS:
-            console.error("Error from UserReducer: " + action.payload);
+            console.error("Error from invitersReducer: " + action.payload);
             return {
                 ...state,
                 errorMessage: action.payload

@@ -22,7 +22,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
 
-
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -271,7 +270,7 @@ export default function InvitersTable(props) {
                             rowCount={rows.length}
                             headCell={headCell}
                         />
-                        <TableBody >
+                        <TableBody>
                             {stableSort(rows, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
@@ -297,7 +296,7 @@ export default function InvitersTable(props) {
                                             <TableCell component="th" id={labelId} scope="row" padding="none">
                                                 {fullName}
                                             </TableCell>
-                                            <TableCell >{groupName}</TableCell>
+                                            <TableCell>{groupName}</TableCell>
                                             <TableCell>
                                                 {alreadyApprove ? (
                                                     <span>Yes</span>
@@ -305,15 +304,15 @@ export default function InvitersTable(props) {
                                                     <span>No</span>
                                                 )}
                                             </TableCell>
-                                            <TableCell >{phoneNumber}</TableCell>
-                                            <TableCell >{emailAddress}</TableCell>
-                                            <TableCell >{numberOfGuests}</TableCell>
-                                            <TableCell >
+                                            <TableCell>{phoneNumber}</TableCell>
+                                            <TableCell>{emailAddress}</TableCell>
+                                            <TableCell>{numberOfGuests}</TableCell>
+                                            <TableCell>
                                                 {needRide ? (
-                                                <span>Yes</span>
-                                            ) : (
-                                                <span>No</span>
-                                            )}
+                                                    <span>Yes</span>
+                                                ) : (
+                                                    <span>No</span>
+                                                )}
                                             </TableCell>
                                         </TableRow>
                                     );
