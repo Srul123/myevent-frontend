@@ -10,11 +10,8 @@ import {
     KeyboardDatePicker,
 } from "@material-ui/pickers";
 import FormControl from '@material-ui/core/FormControl';
-
-import axios from "axios";
-import {useSelector,useDispatch } from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import Moment from 'moment';
-
 import Button from "@material-ui/core/Button";
 import allActions from "../../../redux/actions";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -53,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 export default function MyEventDetails(props) {
     const classes = useStyles();
 
-    const user = useSelector((state) =>  state.userReducer.user);
+    const user = useSelector((state) => state.userReducer.user);
 
     const dispatch = useDispatch();
     const updateUserDetails = (user) =>
@@ -89,8 +86,13 @@ export default function MyEventDetails(props) {
         horizontal: 'center',
     });
 
-    const handleSubmit = async (event) => {
+    const [enableSave, setEnableSave] = React.useState(false);
+
+
+    const handleSubmit = (event) => {
+
         event.preventDefault();
+
         setAlertPopup({open: true, ...alertPopup});
         const date = Moment(eventDate).format("YYYY-MM-DD");
         let dateWithTime = Moment(`${date} ${selectedTime}`);
@@ -106,16 +108,9 @@ export default function MyEventDetails(props) {
             }
         };
         user.details = userDetails;
-        let response;
-        try {
-            response = await axios.put(`http://localhost:5000/users/${user.id}`, user);
-            updateUserDetails(response.data);
-            riseAlert();
-
-        } catch (e) {
-            console.log("Error from MyEventDetails " + response);
-            console.log(e);
-        }
+        updateUserDetails(user);
+        riseAlert();
+        setTimeout(()=>setEnableSave(false),0);
     };
 
     const closeAlert = () => {
@@ -123,21 +118,23 @@ export default function MyEventDetails(props) {
     };
 
     const riseAlert = () => {
-        setAlertPopup({open: true,...{vertical: 'top', horizontal: 'center'}});
+        setAlertPopup({open: true, ...{vertical: 'top', horizontal: 'center'}});
     };
 
     return (
         <div
             className={classes.root}
-            style={{ marginTop: "80px"}}
+            style={{marginTop: "80px"}}
         >
             <Grid container spacing={5}>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
-                        <form className={classes.form} noValidate autoComplete="off">
+                        <form className={classes.form} noValidate autoComplete="off"
+                              onClick={() => setEnableSave(true)}>
                             <div>
                                 <FormControl variant="outlined" className={classes.formControl}>
-                                <EventOwners eventOwners={eventOwners} setEventOwners={setEventOwners} defaultUser={`${user.firstName} ${user.lastName}`}/>
+                                    <EventOwners eventOwners={eventOwners} setEventOwners={setEventOwners}
+                                                 defaultUser={`${user.firstName} ${user.lastName}`}/>
                                 </FormControl>
                             </div>
                             <div>
@@ -149,13 +146,14 @@ export default function MyEventDetails(props) {
                                     value={eventName}
                                     onChange={(event => setEventName(event.target.value))}
                                 />
-                                <FormControl variant="outlined" className={classes.formControl} style={{textAlign:"initial"}}>
+                                <FormControl variant="outlined" className={classes.formControl}
+                                             style={{textAlign: "initial"}}>
                                     <InputLabel id="demo-simple-select-outlined-label">Event type</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-outlined-label"
                                         id="demo-simple-select-outlined"
                                         value={eventType}
-                                        onChange={(event)=> setEventType(event.target.value)}
+                                        onChange={(event) => setEventType(event.target.value)}
                                         label="Event type"
                                     >
                                         <MenuItem value="">
@@ -205,23 +203,27 @@ export default function MyEventDetails(props) {
                                            onChange={(event) => setLocationName(event.target.value)}/>
                                 {/*<AutocompleteGoogleMaps />*/}
                                 <TextField label="Link to Waze/Google" variant="filled" style={{marginLeft: "5px"}}
-                                           value={locationLink} onChange={(event => setLocationLink(event.target.value))}/>
+                                           value={locationLink}
+                                           onChange={(event => setLocationLink(event.target.value))}/>
                             </div>
                             <div>
-                                <Button variant="contained" color="primary" onClick={handleSubmit}>
+                                <Button variant="contained" color="primary" onClick={handleSubmit}
+                                        disabled={!enableSave}>
                                     Save
                                 </Button>
-                                <Button variant="contained" color="secondary" style={{marginLeft:"5px"}} onClick={()=>{
-                                    console.log(props);
-                                    props.history.push("/myprofile");
-                                    setTimeout(()=>{
-                                        props.history.replace("/event-details");
-                                    }, 0);
-                                }}>
+                                <Button variant="contained" color="secondary" style={{marginLeft: "5px"}}
+                                        onClick={() => {
+                                            console.log(props);
+                                            props.history.push("/myprofile");
+                                            setTimeout(() => {
+                                                props.history.replace("/event-details");
+                                            }, 0);
+                                        }}>
                                     Cancel
                                 </Button>
                             </div>
-                            <SnackbarWithPosition  alertPopup={alertPopup}  closeAlert={closeAlert} message="Saved" severity="success"/>
+                            <SnackbarWithPosition alertPopup={alertPopup} closeAlert={closeAlert} message="Saved"
+                                                  severity="success"/>
                         </form>
                     </Paper>
                 </Grid>

@@ -14,10 +14,12 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import {useSelector, useDispatch} from "react-redux";
 import allActions from "../../../redux/actions";
-
+import ContactsIcon from '@material-ui/icons/Contacts';
 import "./AddInviterForm.scss";
 import InputLabel from "@material-ui/core/InputLabel";
 import NativeSelect from "@material-ui/core/NativeSelect";
+import SnackbarWithPosition from "../../alerts/SnackbarWithPosition";
+
 
 const styles = (theme) => ({
     root: {
@@ -101,6 +103,29 @@ export default function AddInviterModal(props) {
         setOpenInviterDialog(false);
     };
 
+    const refreshDataValuesToDefault = ()  => {
+        setInviterName({value: "", error: false, errorNameMsg: "Please provide a name inviter"});
+        setQuantity({
+            value: 1,
+            error: false,
+            errorQuantityMsg: "Please provide valid quantity"
+        });
+        setPhoneNumber({
+            value: "",
+            error: false,
+            errorPhoneNumberMsg: "Please provide valid phone number"
+        });
+        setEmail({
+            value: "",
+            error: false,
+            errorEmailMsg: "Please provide valid email address",
+        });
+        setNeedRide(false);
+        setAddress("");
+        setOwner(0);
+        setGroup(0);
+    };
+
     const handleSubmit = () => {
         if (!validateInviter({
             inviterName,
@@ -133,6 +158,7 @@ export default function AddInviterModal(props) {
             }
             addNewInviter(newInviter);
             setOpenInviterDialog(false);
+            refreshDataValuesToDefault();
         } else {
             console.log("Need chages )-: !!!!!!!!!!!!!!!!!!!!!!")
         }
@@ -143,7 +169,7 @@ export default function AddInviterModal(props) {
         <div>
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={openInviterDialog}>
                 <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                    Add Inviter
+                    <ContactsIcon/> <span style={{position:"relative", bottom:"0.5vh"}}>Add Inviter</span>
                 </DialogTitle>
                 <DialogContent dividers>
                     <form className={"AddInviterForm"} noValidate autoComplete="off">

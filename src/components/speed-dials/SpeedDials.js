@@ -7,6 +7,8 @@ import SaveIcon from '@material-ui/icons/Save';
 import PrintIcon from '@material-ui/icons/Print';
 import ShareIcon from '@material-ui/icons/Share';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import PeopleIcon from '@material-ui/icons/People';
 import PermContactCalendarOutlinedIcon from '@material-ui/icons/PermContactCalendarOutlined';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,22 +19,13 @@ const useStyles = makeStyles((theme) => ({
         position: 'fixed',
         left: '90%',
         top: '32vh'
-        // '&.MuiSpeedDial-directionUp, &.MuiSpeedDial-directionLeft': {
-        //     right: theme.spacing(2),
-        // },
-        // '&.MuiSpeedDial-directionDown, &.MuiSpeedDial-directionRight': {
-        //     top: theme.spacing(2),
-        //     left: theme.spacing(2),
-        // },
     },
 }));
 
 const actions = [
     { icon: <PermContactCalendarOutlinedIcon />, name: 'Add new inviter',action: "addInviter" },
-    { icon: <SaveIcon />, name: 'My groups',action: "openGroups" },
-    { icon: <PrintIcon />, name: 'Print',action: "openGroups" },
-    { icon: <ShareIcon />, name: 'Share',action: "openGroups" },
-    { icon: <FavoriteIcon />, name: 'Like' ,action: "openGroups"},
+    { icon: <PeopleIcon />, name: 'My groups',action: "openGroups" },
+    { icon: <CloudUploadIcon />, name: 'Load inviters from external platform',action: "openGroups" },
 ];
 
 export default function SpeedDials(props) {
@@ -42,8 +35,6 @@ export default function SpeedDials(props) {
 
 
     const handleClose = (event, action) => {
-        console.log("action");
-        console.log(action);
         setSpeedDials(false);
         if(action==="addInviter"){
             setOpenInviterDialog(true);

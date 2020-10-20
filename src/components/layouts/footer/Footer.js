@@ -25,9 +25,6 @@ export default function Footer() {
 
     return (
         <footer className={classes.footer} style={footerStyle}>
-            <Typography variant="h6" align="center" gutterBottom>
-                My-Event
-        </Typography>
             <Typography variant="body2"  align="center">
                 {'Copyright © '}
                 <Link color="inherit" to="/" style={{color:"white"}}>
