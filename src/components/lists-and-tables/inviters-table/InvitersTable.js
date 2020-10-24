@@ -142,9 +142,9 @@ const EnhancedTableToolbar = (props) => {
 
                     </Tooltip>
                 </React.Fragment>
-            ) : (
+            ) :
                 null
-            )}
+            }
         </Toolbar>
     );
 };
@@ -178,7 +178,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function InvitersTable(props) {
-    const {rows, title, headCell} = props;
+    const {rows, title, headCell,setEditOpenInviterDialog} = props;
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('fullName');
@@ -231,6 +231,10 @@ export default function InvitersTable(props) {
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
+    const riseEditInviterModal = () => {
+      setEditOpenInviterDialog(true);
+    };
+
     return (
         <div className={classes.root+ " InvitersTable"} style={{marginBottom: "7vh"}}>
             <Paper className={classes.paper} style={{marginBottom: "8vh"}}>
@@ -263,7 +267,7 @@ export default function InvitersTable(props) {
                                             hover
                                             tabIndex={-1}
                                             key={row.id}
-                                            onDoubleClick={()=> console.log(row)}
+                                            onDoubleClick={()=> riseEditInviterModal(row)}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox

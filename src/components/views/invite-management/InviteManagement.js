@@ -11,7 +11,7 @@ import InvitersTable from "../../lists-and-tables/inviters-table/InvitersTable";
 import AutocompleteSearchCheckboxesTags from "../../autocomplete-searchs/AutocompleteSearchCheckboxesTags";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import AddInviterModal from "../../dialogs/add-inviter-modal/AddInviterModal";
-import EditInviterModal from "../../dialogs/add-inviter-modal/EditInviterModal";
+import EditInviterModal from "../../dialogs/edit-inviter-modal/EditInviterModal";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -117,7 +117,12 @@ export default function InviteManagement() {
                         </Paper>
                     </Grid>
                     <Grid item xs={12}>
-                        <InvitersTable title={"Inviters List"} headCell={tableHeadData} rows={invitersListFilter}/>
+                        <InvitersTable
+                            title={"Inviters List"}
+                            headCell={tableHeadData}
+                            rows={invitersListFilter}
+                            setEditOpenInviterDialog={setEditOpenInviterDialog}
+                        />
                     </Grid>
 
                 </Grid>
