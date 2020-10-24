@@ -19,7 +19,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import "./InvitersTable.scss";
 
 
 function descendingComparator(a, b, orderBy) {
@@ -49,7 +49,7 @@ function stableSort(array, comparator) {
 }
 
 function EnhancedTableHead(props) {
-    const {classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCell} = props;
+    const {classes, order, orderBy, onRequestSort, headCell} = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -57,12 +57,6 @@ function EnhancedTableHead(props) {
         <TableHead>
             <TableRow>
                 <TableCell padding="checkbox">
-                    <Checkbox
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                        inputProps={{'aria-label': 'select all desserts'}}
-                    />
                 </TableCell>
                 {headCell.map((headCell) => (
                     <TableCell
@@ -94,7 +88,6 @@ EnhancedTableHead.propTypes = {
     classes: PropTypes.object.isRequired,
     numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired,
@@ -148,9 +141,6 @@ const EnhancedTableToolbar = (props) => {
                         </IconButton>
 
                     </Tooltip>
-                    <p>
-                        test
-                    </p>
                 </React.Fragment>
             ) : (
                 null
@@ -203,14 +193,6 @@ export default function InvitersTable(props) {
         setOrderBy(property);
     };
 
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.fullName);
-            setSelected(newSelecteds);
-            return;
-        }
-        setSelected([]);
-    };
 
     const handleClick = (event, name) => {
         const selectedIndex = selected.indexOf(name);
@@ -250,7 +232,7 @@ export default function InvitersTable(props) {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
-        <div className={classes.root} style={{marginBottom: "7vh"}}>
+        <div className={classes.root+ " InvitersTable"} style={{marginBottom: "7vh"}}>
             <Paper className={classes.paper} style={{marginBottom: "8vh"}}>
                 <EnhancedTableToolbar numSelected={selected.length} title={title} headCell={headCell}/>
                 <TableContainer>
@@ -265,12 +247,11 @@ export default function InvitersTable(props) {
                             numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
                             rowCount={rows.length}
                             headCell={headCell}
                         />
-                        <TableBody>
+                        <TableBody className={"TableBody"}>
                             {stableSort(rows, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
@@ -280,20 +261,18 @@ export default function InvitersTable(props) {
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.fullName)}
-                                            role="checkbox"
-                                            aria-checked={isItemSelected}
                                             tabIndex={-1}
                                             key={row.id}
-                                            selected={isItemSelected}
+                                            onDoubleClick={()=> console.log(row)}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
+                                                    onClick={(event) => handleClick(event, row.fullName)}
                                                     checked={isItemSelected}
                                                     inputProps={{'aria-labelledby': labelId}}
                                                 />
                                             </TableCell>
-                                            <TableCell component="th" id={labelId} scope="row" padding="none">
+                                            <TableCell>
                                                 {fullName}
                                             </TableCell>
                                             <TableCell>{groupName}</TableCell>

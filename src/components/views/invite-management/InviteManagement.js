@@ -3,18 +3,15 @@ import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import SpeedDials from "../../speed-dials/SpeedDials";
-import CheckboxSelectionGrid from "../../lists-and-tables/CheckboxSelectionGrid";
 import AutocompleteSearchNormal from "../../autocomplete-searchs/AutocompleteSearchNormal";
 import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import {useSelector} from "react-redux";
-import InvitersTable from "../../lists-and-tables/InvitersTable";
+import InvitersTable from "../../lists-and-tables/inviters-table/InvitersTable";
 import AutocompleteSearchCheckboxesTags from "../../autocomplete-searchs/AutocompleteSearchCheckboxesTags";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import AddInviterModal from "../../dialogs/add-inviter-modal/AddInviterModal";
+import EditInviterModal from "../../dialogs/add-inviter-modal/EditInviterModal";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,8 +50,9 @@ export default function InviteManagement() {
 
     const classes = useStyles();
     const [eventOwner, setEventOwner] = React.useState('');
-    const [openInviterDialog, setOpenInviterDialog] = React.useState(false);
+    const [openAddInviterDialog, setAddOpenInviterDialog] = React.useState(false);
     const [openSpeedDials, setSpeedDials] = React.useState(false);
+    const [openEditInviterDialog, setEditOpenInviterDialog] = React.useState(false);
     const invitersListFilter = useSelector(state => state.invitersReducer.invitersListFiltered);
     const invitersList = useSelector(state => state.invitersReducer.invitersList);
     const user = useSelector(state => state.userReducer.user);
@@ -73,11 +71,14 @@ export default function InviteManagement() {
 
     return (
         <React.Fragment>
-            <SpeedDials setOpenInviterDialog={setOpenInviterDialog}/>
+            <SpeedDials setOpenInviterDialog={setAddOpenInviterDialog}/>
             <div className={classes.root} style={{marginTop: "80px"}}>
                 <Grid container spacing={5}>
-                    <AddInviterModal openInviterDialog={openInviterDialog} setOpenInviterDialog={setOpenInviterDialog}
+                    <AddInviterModal openInviterDialog={openAddInviterDialog}
+                                     setOpenInviterDialog={setAddOpenInviterDialog}
                                      setSpeedDials={setSpeedDials}/>
+                    <EditInviterModal openInviterDialog={openEditInviterDialog}
+                                      setOpenInviterDialog={setEditOpenInviterDialog}/>
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
                             <Grid item xs={12} className="top-title-page">
@@ -86,15 +87,15 @@ export default function InviteManagement() {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <div className="wrapper-filter" style={{marginTop: "2vh", display:"flex"}}>
-                                    <div style={{flex:"1"}}>
-                                        <FormControl className={classes.formControl}  style={{width: "100%"}}>
+                                <div className="wrapper-filter" style={{marginTop: "2vh", display: "flex"}}>
+                                    <div style={{flex: "1"}}>
+                                        <FormControl className={classes.formControl} style={{width: "100%"}}>
 
                                             <AutocompleteSearchCheckboxesTags groups={groups}/>
                                         </FormControl>
                                     </div>
-                                    <div style={{flex:"1"}}>
-                                        <FormControl  className={classes.formControl} style={{width: "80%"}}>
+                                    <div style={{flex: "1"}}>
+                                        <FormControl className={classes.formControl} style={{width: "80%"}}>
                                             <NativeSelect
                                                 value={eventOwner}
                                                 onChange={(event) => {

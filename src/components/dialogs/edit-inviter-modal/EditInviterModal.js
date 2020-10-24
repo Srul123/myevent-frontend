@@ -15,7 +15,7 @@ import Switch from "@material-ui/core/Switch";
 import {useSelector, useDispatch} from "react-redux";
 import allActions from "../../../redux/actions";
 import ContactsIcon from '@material-ui/icons/Contacts';
-import "./AddInviterStyle.scss";
+import "./EditInviterStyle.scss";
 import InputLabel from "@material-ui/core/InputLabel";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import SnackbarWithPosition from "../../alerts/SnackbarWithPosition";
@@ -63,7 +63,7 @@ const DialogActions = withStyles((theme) => ({
     },
 }))(MuiDialogActions);
 
-export default function AddInviterModal(props) {
+export default function EditInviterModal(props) {
     const {openInviterDialog, setOpenInviterDialog} = props;
     const [inviterName, setInviterName] = React.useState({
         value: "",
