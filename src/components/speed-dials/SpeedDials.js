@@ -29,7 +29,7 @@ const actions = [
 ];
 
 export default function SpeedDials(props) {
-    const {setOpenInviterDialog} = props;
+    const {setOpenInviterDialog, setOpenGroupsDialog} = props;
     const [openSpeedDials,setSpeedDials] = React.useState(false);
     const classes = useStyles();
 
@@ -38,6 +38,9 @@ export default function SpeedDials(props) {
         setSpeedDials(false);
         if(action==="addInviter"){
             setOpenInviterDialog(true);
+        }
+        if(action==="openGroups"){
+            setOpenGroupsDialog(true);
         }
     };
 

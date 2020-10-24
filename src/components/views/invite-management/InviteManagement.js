@@ -11,7 +11,8 @@ import InvitersTable from "../../lists-and-tables/inviters-table/InvitersTable";
 import AutocompleteSearchCheckboxesTags from "../../autocomplete-searchs/AutocompleteSearchCheckboxesTags";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import AddInviterModal from "../../dialogs/add-inviter-modal/AddInviterModal";
-import EditInviterModal from "../../dialogs/add-inviter-modal/EditInviterModal";
+import GroupsModal from "../../dialogs/groups-modal/GroupsModal";
+// import EditInviterModal from "../../dialogs/add-inviter-modal/EditInviterModal";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -51,6 +52,7 @@ export default function InviteManagement() {
     const classes = useStyles();
     const [eventOwner, setEventOwner] = React.useState('');
     const [openAddInviterDialog, setAddOpenInviterDialog] = React.useState(false);
+    const [openGroupDialog, setGroupsDialog] = React.useState(false);
     const [openSpeedDials, setSpeedDials] = React.useState(false);
     const [openEditInviterDialog, setEditOpenInviterDialog] = React.useState(false);
     const invitersListFilter = useSelector(state => state.invitersReducer.invitersListFiltered);
@@ -71,14 +73,18 @@ export default function InviteManagement() {
 
     return (
         <React.Fragment>
-            <SpeedDials setOpenInviterDialog={setAddOpenInviterDialog}/>
+            <SpeedDials setOpenInviterDialog={setAddOpenInviterDialog} setOpenGroupsDialog={setGroupsDialog}/>
             <div className={classes.root} style={{marginTop: "80px"}}>
                 <Grid container spacing={5}>
                     <AddInviterModal openInviterDialog={openAddInviterDialog}
                                      setOpenInviterDialog={setAddOpenInviterDialog}
                                      setSpeedDials={setSpeedDials}/>
-                    <EditInviterModal openInviterDialog={openEditInviterDialog}
-                                      setOpenInviterDialog={setEditOpenInviterDialog}/>
+                    <GroupsModal openGroupDialog={openGroupDialog}
+                                    setOpenGroupsDialog={setGroupsDialog}
+                                    setSpeedDials={setSpeedDials}/>
+                    {/* <EditInviterModal openInviterDialog={openEditInviterDialog}
+                                      setOpenInviterDialog={setEditOpenInviterDialog}/> */}
+                                      
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
                             <Grid item xs={12} className="top-title-page">
