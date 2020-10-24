@@ -30,10 +30,9 @@ const invitersReducer = (state = initialState, action) => {
                 invitersList: [...state.invitersList,action.payload]
             };
         case SET_FILTER_LIST:
-            const filtered = Array.isArray(action.payload)? action.payload : [action.payload];
             return {
                 ...state,
-                invitersListFiltered: filtered
+                invitersListFiltered: [action.payload]
             };
         case CLEAR_FILTER_LIST:
             console.log("from CLEAR_FILTER_LIST")
