@@ -11,7 +11,7 @@ import InvitersTable from "../../lists-and-tables/inviters-table/InvitersTable";
 import AutocompleteSearchCheckboxesTags from "../../autocomplete-searchs/AutocompleteSearchCheckboxesTags";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import AddInviterModal from "../../dialogs/add-inviter-modal/AddInviterModal";
-import EditInviterModal from "../../dialogs/add-inviter-modal/EditInviterModal";
+// import EditInviterModal from "../../dialogs/add-inviter-modal/EditInviterModal";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -77,8 +77,8 @@ export default function InviteManagement() {
                     <AddInviterModal openInviterDialog={openAddInviterDialog}
                                      setOpenInviterDialog={setAddOpenInviterDialog}
                                      setSpeedDials={setSpeedDials}/>
-                    <EditInviterModal openInviterDialog={openEditInviterDialog}
-                                      setOpenInviterDialog={setEditOpenInviterDialog}/>
+                    {/* <EditInviterModal openInviterDialog={openEditInviterDialog}
+                                      setOpenInviterDialog={setEditOpenInviterDialog}/> */}
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
                             <Grid item xs={12} className="top-title-page">
