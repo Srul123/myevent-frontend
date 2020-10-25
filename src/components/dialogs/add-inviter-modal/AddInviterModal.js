@@ -14,11 +14,12 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import {useSelector, useDispatch} from "react-redux";
 import allActions from "../../../redux/actions";
-import ContactsIcon from '@material-ui/icons/Contacts';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import "./AddInviterStyle.scss";
 import InputLabel from "@material-ui/core/InputLabel";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import SnackbarWithPosition from "../../alerts/SnackbarWithPosition";
+import {validateInviter} from "../../../services/validationsFunctions";
 
 const styles = (theme) => ({
     root: {
@@ -157,16 +158,17 @@ export default function AddInviterModal(props) {
             });
             const newInviter = {
                 user_id: userID,
-                fullName: inviterName.value,
-                phoneNumber: phoneNumber.value,
-                emailAddress: email.value,
+                fullName: inviterName.value.trim(),
+                phoneNumber: phoneNumber.value.trim(),
+                emailAddress: email.value.trim(),
                 groupId: chosenGroup.id,
                 groupName: chosenGroup.groupName,
                 ownerName: chosenOwner.name,
                 ownerId: chosenOwner.id,
                 numberOfGuests: quantity.value,
-                needRide: needRide,
-                dateCreated: "14.09.2020",
+                needRide,
+                address,
+                dateCreated: Date.now(),
                 alreadyApprove: false
             }
             addNewInviter(newInviter);
@@ -183,7 +185,7 @@ export default function AddInviterModal(props) {
         <div>
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={openInviterDialog}>
                 <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                    <ContactsIcon/> <span style={{position:"relative", bottom:"0.5vh"}}>Add Inviter</span>
+                    <PersonAddIcon/> <span style={{position:"relative", bottom:"0.5vh"}}>Add Inviter</span>
                 </DialogTitle>
                 <DialogContent dividers>
                     <form className={"AddInviterForm"} noValidate autoComplete="off">
@@ -300,72 +302,3 @@ export default function AddInviterModal(props) {
 }
 
 
-function validateInviter ({
-                              inviterName,
-                              setInviterName,
-                              quantity,
-                              setQuantity,
-                              phoneNumber,
-                              setPhoneNumber,
-                              email,
-                              setEmail}) {
-    let generalError = false;
-    if (!inviterName.value || !(/^[a-zA-Z]+$/.test(inviterName.value))) {
-        setInviterName({
-            ...inviterName,
-            error: true
-        });
-        generalError = true;
-    } else {
-        setInviterName({
-            ...inviterName,
-            error: false
-        });
-    }
-    if (quantity.value < 1) {
-        setQuantity({
-            ...quantity,
-            error: true
-        });
-        generalError = true;
-    } else {
-        setQuantity({
-            ...quantity,
-            value: parseInt(quantity.value),
-            error: false
-        });
-    }
-    let  regExp = /^0\d+$/;
-    if(phoneNumber.value!==""){
-        if (!regExp.test(phoneNumber.value) || !(phoneNumber.value.length === 10)) {
-            setPhoneNumber({
-                ...phoneNumber,
-                error: true
-            });
-            generalError= true;
-        }
-    }
-    else {
-        setPhoneNumber({
-            ...phoneNumber,
-            error: false
-        });
-    }
-    regExp = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (email.value !== "" ) {
-        if(!regExp.test(String(email.value).toLowerCase())){
-        setEmail({
-            ...email,
-            error: true
-        });
-            generalError = true;
-        }
-    } else {
-        setEmail({
-            ...email,
-            error: false
-        });
-    }
-
-    return generalError;
-}

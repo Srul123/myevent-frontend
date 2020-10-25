@@ -16,10 +16,10 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import "./InvitersTable.scss";
+import {useDispatch} from 'react-redux'
+import invitersActions from "../../../redux/actions/invitersActions";
 
 
 function descendingComparator(a, b, orderBy) {
@@ -108,9 +108,6 @@ const useToolbarStyles = makeStyles((theme) => ({
                 color: theme.palette.text.primary,
                 backgroundColor: theme.palette.secondary.dark,
             },
-    title: {
-        flex: '1 1 100%',
-    },
 }));
 
 const EnhancedTableToolbar = (props) => {
@@ -134,15 +131,15 @@ const EnhancedTableToolbar = (props) => {
             )}
 
             {numSelected > 0 ? (
-                <React.Fragment>
-                    <Tooltip title="Delete">
-                        <IconButton aria-label="delete">
-                            <DeleteIcon/>
-                        </IconButton>
+                    <React.Fragment>
+                        <Tooltip title="Delete">
+                            <IconButton aria-label="delete">
+                                <DeleteIcon/>
+                            </IconButton>
 
-                    </Tooltip>
-                </React.Fragment>
-            ) :
+                        </Tooltip>
+                    </React.Fragment>
+                ) :
                 null
             }
         </Toolbar>
@@ -178,15 +175,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function InvitersTable(props) {
-    const {rows, title, headCell,setEditOpenInviterDialog} = props;
+    const {rows, title, headCell, setEditOpenInviterDialog} = props;
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('fullName');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+    const dispatch = useDispatch();
+    const setCurInviter = (inviter) => dispatch(invitersActions.setCurInviter(inviter));
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
@@ -223,27 +220,25 @@ export default function InvitersTable(props) {
         setPage(0);
     };
 
-    const handleChangeDense = (event) => {
-        setDense(event.target.checked);
-    };
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-    const riseEditInviterModal = () => {
-      setEditOpenInviterDialog(true);
+    const riseEditInviterModal = (row) => {
+        setCurInviter(row);
+        setEditOpenInviterDialog(true);
     };
 
     return (
-        <div className={classes.root+ " InvitersTable"} style={{marginBottom: "7vh"}}>
+        <div className={classes.root + " InvitersTable"} style={{marginBottom: "7vh"}}>
             <Paper className={classes.paper} style={{marginBottom: "8vh"}}>
                 <EnhancedTableToolbar numSelected={selected.length} title={title} headCell={headCell}/>
                 <TableContainer>
                     <Table
                         className={classes.table}
                         aria-labelledby="tableTitle"
-                        size={dense ? 'small' : 'medium'}
+                        size={'small'}
                         aria-label="enhanced table"
                     >
                         <EnhancedTableHead
@@ -261,13 +256,12 @@ export default function InvitersTable(props) {
                                 .map((row, index) => {
                                     const isItemSelected = isSelected(row.fullName);
                                     const labelId = `enhanced-table-checkbox-${index}`;
-                                    const {fullName, groupName, alreadyApprove, phoneNumber, emailAddress, numberOfGuests, needRide} = row;
+                                    const {fullName, groupName, ownerName, alreadyApprove, phoneNumber, emailAddress, numberOfGuests, needRide} = row;
                                     return (
                                         <TableRow
                                             hover
                                             tabIndex={-1}
                                             key={row.id}
-                                            onDoubleClick={()=> riseEditInviterModal(row)}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
@@ -276,10 +270,11 @@ export default function InvitersTable(props) {
                                                     inputProps={{'aria-labelledby': labelId}}
                                                 />
                                             </TableCell>
-                                            <TableCell>
+                                            <TableCell id={"fullName"} onClick={() => riseEditInviterModal(row)}>
                                                 {fullName}
                                             </TableCell>
                                             <TableCell>{groupName}</TableCell>
+                                            <TableCell>{ownerName}</TableCell>
                                             <TableCell>
                                                 {alreadyApprove ? (
                                                     <span>Yes</span>
@@ -301,7 +296,7 @@ export default function InvitersTable(props) {
                                     );
                                 })}
                             {emptyRows > 0 && (
-                                <TableRow style={{height: (dense ? 33 : 53) * emptyRows}}>
+                                <TableRow style={{height: 33}}>
                                     <TableCell colSpan={6}/>
                                 </TableRow>
                             )}
@@ -318,10 +313,6 @@ export default function InvitersTable(props) {
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                 />
             </Paper>
-            <FormControlLabel
-                control={<Switch checked={dense} onChange={handleChangeDense}/>}
-                label="Dense padding"
-            />
         </div>
     );
 }

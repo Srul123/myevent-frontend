@@ -19,6 +19,8 @@ import "./EditInviterStyle.scss";
 import InputLabel from "@material-ui/core/InputLabel";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import SnackbarWithPosition from "../../alerts/SnackbarWithPosition";
+import {validateInviter} from "../../../services/validationsFunctions";
+
 
 const styles = (theme) => ({
     root: {
@@ -63,41 +65,55 @@ const DialogActions = withStyles((theme) => ({
     },
 }))(MuiDialogActions);
 
+
 export default function EditInviterModal(props) {
     const {openInviterDialog, setOpenInviterDialog} = props;
+    const dispatch = useDispatch();
+    const curInviterToEdit = useSelector(state => state.invitersReducer.curInviter);
+
     const [inviterName, setInviterName] = React.useState({
         value: "",
         error: false,
         errorNameMsg: "Please provide a name inviter",
     });
+
     const [quantity, setQuantity] = React.useState({
         value: 1,
         error: false,
         errorQuantityMsg: "Please provide valid quantity"
     });
+
     const [phoneNumber, setPhoneNumber] = React.useState({
         value: "",
         error: false,
         errorPhoneNumberMsg: "Please provide valid phone number"
     });
     const [email, setEmail] = React.useState({
-        value: "",
+        value: curInviterToEdit ? curInviterToEdit.emailAddress : "",
         error: false,
         errorEmailMsg: "Please provide valid email address",
     });
-
     const [needRide, setNeedRide] = React.useState(false);
     const [address, setAddress] = React.useState("");
-
     const user = useSelector(state => state.userReducer.user);
-    const owners = user.details.eventOwners;
-    const userID = user.id;
-    const groups = useSelector(state => state.groupReducer.groupList);
     const [owner, setOwner] = React.useState(0);
     const [group, setGroup] = React.useState(0);
-    const dispatch = useDispatch();
-    const addNewInviter = (inviter) =>dispatch(allActions.invitersActions.addInviter(inviter));
-    // setOpenInviterDialog(true);
+    React.useEffect(() => {
+        if (curInviterToEdit !== null) {
+            setInviterName({...inviterName, value: curInviterToEdit.fullName});
+            setQuantity({...quantity, value: curInviterToEdit.numberOfGuests});
+            setPhoneNumber({...phoneNumber, value: curInviterToEdit.phoneNumber});
+            setEmail({...email, value:curInviterToEdit.emailAddress});
+            setNeedRide(curInviterToEdit.needRide);
+            setAddress(curInviterToEdit.address);
+            setGroup(curInviterToEdit.groupId);
+            setOwner(curInviterToEdit.ownerId);
+        }
+    },[curInviterToEdit])
+
+    const groups = useSelector(state => state.groupReducer.groupList);
+    const owners = user.details.eventOwners;
+    const editCurInviter = (inviter) => dispatch(allActions.invitersActions.editInviter(inviter));
     const [alertPopup, setAlertPopup] = React.useState({
         open: false,
         vertical: 'top',
@@ -114,30 +130,9 @@ export default function EditInviterModal(props) {
 
     const handleClose = () => {
         setOpenInviterDialog(false);
+        refreshDataValuesToDefault();
     };
 
-    const refreshDataValuesToDefault = ()  => {
-        setInviterName({value: "", error: false, errorNameMsg: "Please provide a name inviter"});
-        setQuantity({
-            value: 1,
-            error: false,
-            errorQuantityMsg: "Please provide valid quantity"
-        });
-        setPhoneNumber({
-            value: "",
-            error: false,
-            errorPhoneNumberMsg: "Please provide valid phone number"
-        });
-        setEmail({
-            value: "",
-            error: false,
-            errorEmailMsg: "Please provide valid email address",
-        });
-        setNeedRide(false);
-        setAddress("");
-        setOwner(0);
-        setGroup(0);
-    };
 
     const handleSubmit = () => {
         if (!validateInviter({
@@ -148,30 +143,29 @@ export default function EditInviterModal(props) {
             phoneNumber,
             setPhoneNumber,
             email,
-            setEmail})) {
-            let chosenOwner = owners.find(otherOwner=>{
-                return otherOwner.id===Number(owner);
+            setEmail
+        })) {
+            let chosenOwner = owners.find(otherOwner => {
+                return otherOwner.id === Number(owner);
             });
-            const chosenGroup = groups.find(otherGroup=>{
-                return otherGroup.id===Number(group);
+            const chosenGroup = groups.find(otherGroup => {
+                return otherGroup.id === Number(group);
             });
-            const newInviter = {
-                user_id: userID,
-                fullName: inviterName.value,
-                phoneNumber: phoneNumber.value,
-                emailAddress: email.value,
+            const editInviter = {
+                ...curInviterToEdit,
+                fullName: inviterName.value.trim(),
+                phoneNumber: phoneNumber.value.trim(),
+                emailAddress: email.value.trim(),
                 groupId: chosenGroup.id,
-                groupName: chosenGroup.groupName,
-                ownerName: chosenOwner.name,
+                groupName: chosenGroup.groupName.trim(),
+                ownerName: chosenOwner.name.trim(),
                 ownerId: chosenOwner.id,
                 numberOfGuests: quantity.value,
                 needRide: needRide,
-                dateCreated: "14.09.2020",
                 alreadyApprove: false
             }
-            addNewInviter(newInviter);
+            editCurInviter(editInviter);
             setOpenInviterDialog(false);
-            refreshDataValuesToDefault();
             riseAlert();
         } else {
             console.log("Need chages )-: !!!!!!!!!!!!!!!!!!!!!!")
@@ -179,11 +173,34 @@ export default function EditInviterModal(props) {
 
     };
 
+    const refreshDataValuesToDefault = ()  => {
+        setInviterName({
+            ...inviterName,
+            error: false
+        });
+        setQuantity({
+           ...quantity,
+            error: false,
+        });
+        setPhoneNumber({
+            ...phoneNumber,
+            error: false,
+        });
+        setEmail({
+            ...email,
+            error: false,
+        });
+    };
+
+    if (curInviterToEdit === null) {
+        return null;
+    }
+
     return (
         <div>
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={openInviterDialog}>
                 <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                    <ContactsIcon/> <span style={{position:"relative", bottom:"0.5vh"}}>Add Inviter</span>
+                    <ContactsIcon/> <span style={{position: "relative", bottom: "0.5vh"}}>Edit Inviter</span>
                 </DialogTitle>
                 <DialogContent dividers>
                     <form className={"AddInviterForm"} noValidate autoComplete="off">
@@ -288,7 +305,7 @@ export default function EditInviterModal(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleSubmit} color="primary">
-                        Add new inviter
+                       Edit inviter
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -299,73 +316,3 @@ export default function EditInviterModal(props) {
         ;
 }
 
-
-function validateInviter ({
-                              inviterName,
-                              setInviterName,
-                              quantity,
-                              setQuantity,
-                              phoneNumber,
-                              setPhoneNumber,
-                              email,
-                              setEmail}) {
-    let generalError = false;
-    if (!inviterName.value || !(/^[a-zA-Z]+$/.test(inviterName.value))) {
-        setInviterName({
-            ...inviterName,
-            error: true
-        });
-        generalError = true;
-    } else {
-        setInviterName({
-            ...inviterName,
-            error: false
-        });
-    }
-    if (quantity.value < 1) {
-        setQuantity({
-            ...quantity,
-            error: true
-        });
-        generalError = true;
-    } else {
-        setQuantity({
-            ...quantity,
-            value: parseInt(quantity.value),
-            error: false
-        });
-    }
-    let  regExp = /^0\d+$/;
-    if(phoneNumber.value!==""){
-        if (!regExp.test(phoneNumber.value) || !(phoneNumber.value.length === 10)) {
-            setPhoneNumber({
-                ...phoneNumber,
-                error: true
-            });
-            generalError= true;
-        }
-    }
-    else {
-        setPhoneNumber({
-            ...phoneNumber,
-            error: false
-        });
-    }
-    regExp = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (email.value !== "" ) {
-        if(!regExp.test(String(email.value).toLowerCase())){
-        setEmail({
-            ...email,
-            error: true
-        });
-            generalError = true;
-        }
-    } else {
-        setEmail({
-            ...email,
-            error: false
-        });
-    }
-
-    return generalError;
-}

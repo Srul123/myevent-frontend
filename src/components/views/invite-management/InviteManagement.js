@@ -36,11 +36,12 @@ const useStyles = makeStyles((theme) => ({
 
 function prepareTableHeadDataForComp() {
     const headCells = [
-        {id: 'fullName', numeric: false, disablePadding: true, label: 'Name'},
+        {id: 'fullName', numeric: false, disablePadding: false, label: 'Name'},
         {id: 'groupName', numeric: false, disablePadding: false, label: 'Group'},
-        {id: 'alreadyApprove', numeric: false, disablePadding: false, label: 'Approved arrival'},
-        {id: 'phoneNumber', numeric: false, disablePadding: false, label: 'Phone'},
-        {id: 'emailAddress', numeric: false, disablePadding: false, label: 'email'},
+        {id: 'ownerName', numeric: false, disablePadding: false, label: 'Owner'},
+        {id: 'alreadyApprove', numeric: false, disablePadding: true, label: 'Approved arrival'},
+        {id: 'phoneNumber', numeric: false, disablePadding: true, label: 'Phone'},
+        {id: 'emailAddress', numeric: false, disablePadding: true, label: 'email'},
         {id: 'numberOfGuests', numeric: true, disablePadding: false, label: 'Quantity'},
         {id: 'needRide', numeric: false, disablePadding: false, label: 'Need ride'},
     ];

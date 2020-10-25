@@ -3,13 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
-import SaveIcon from '@material-ui/icons/Save';
-import PrintIcon from '@material-ui/icons/Print';
-import ShareIcon from '@material-ui/icons/Share';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import PeopleIcon from '@material-ui/icons/People';
-import PermContactCalendarOutlinedIcon from '@material-ui/icons/PermContactCalendarOutlined';
 
 const useStyles = makeStyles((theme) => ({
     radioGroup: {
@@ -23,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const actions = [
-    { icon: <PermContactCalendarOutlinedIcon />, name: 'Add new inviter',action: "addInviter" },
+    { icon: <PersonAddIcon />, name: 'Add new inviter',action: "addInviter" },
     { icon: <PeopleIcon />, name: 'My groups',action: "openGroups" },
     { icon: <CloudUploadIcon />, name: 'Load inviters from external platform',action: "openGroups" },
 ];

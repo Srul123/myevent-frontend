@@ -7,9 +7,12 @@ export const UPDATE_USER = "UPDATE_USER";
 // Inviters
 export const GET_INVITERS = "GET_INVITERS";
 export const ADD_INVITER = "ADD_INVITER";
+export const EDIT_INVITER = "EDIT_INVITER";
+export const DELETE_INVITER = "DELETE_INVITER";
 export const ERROR_INVITERS = "ERROR_INVITERS";
 export const SET_FILTER_LIST = "SET_FILTER_LIST";
 export const CLEAR_FILTER_LIST = "CLEAR_FILTER_LIST";
+export const SET_CUR_INVITER = "SET_CUR_INVITER";
 
 
 // Groups

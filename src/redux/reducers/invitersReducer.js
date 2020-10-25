@@ -3,14 +3,15 @@ import {
     ADD_INVITER,
     ERROR_INVITERS,
     SET_FILTER_LIST,
-    CLEAR_FILTER_LIST
+    CLEAR_FILTER_LIST, SET_CUR_INVITER, EDIT_INVITER, DELETE_INVITER
 } from "../types";
 
 const initialState = {
-        invitersList: [],
-        invitersListFiltered: [],
-        errorMessage: ""
-    };
+    invitersList: [],
+    curInviter: null,
+    invitersListFiltered: [],
+    errorMessage: ""
+};
 
 
 const invitersReducer = (state = initialState, action) => {
@@ -19,15 +20,32 @@ const invitersReducer = (state = initialState, action) => {
             return {
                 ...state,
                 invitersList: action.payload,
-                invitersListFiltered:action.payload
+                invitersListFiltered: action.payload
             };
         case ADD_INVITER:
-            debugger;
-            const test = action.payload;
             return {
                 ...state,
                 invitersListFiltered: [...state.invitersListFiltered, action.payload],
-                invitersList: [...state.invitersList,action.payload]
+                invitersList: [...state.invitersList, action.payload]
+            };
+        case EDIT_INVITER:
+            return {
+                ...state,
+                invitersList: state.invitersList.map(inviter =>
+                    inviter.id === action.payload.id ? action.payload : inviter
+                )
+            };
+        case DELETE_INVITER:
+            return {
+                ...state,
+                invitersList: state.invitersList.filter(inviter =>
+                    inviter.id !== action.payload
+                )
+            };
+        case SET_CUR_INVITER:
+            return {
+                ...state,
+                curInviter: action.payload
             };
         case SET_FILTER_LIST:
             return {
@@ -35,11 +53,9 @@ const invitersReducer = (state = initialState, action) => {
                 invitersListFiltered: [action.payload]
             };
         case CLEAR_FILTER_LIST:
-            console.log("from CLEAR_FILTER_LIST")
-            console.log(state);
             return {
                 ...state,
-                invitersListFiltered:state.invitersList
+                invitersListFiltered: state.invitersList
             };
         case ERROR_INVITERS:
             console.error("Error from invitersReducer: " + action.payload);

@@ -1,9 +1,11 @@
-import {ERROR_INVITERS,
+import {
+    ERROR_INVITERS,
     GET_INVITERS,
     ADD_INVITER,
     BASE_URL,
     SET_FILTER_LIST,
-    CLEAR_FILTER_LIST} from "../types";
+    CLEAR_FILTER_LIST, SET_CUR_INVITER, EDIT_INVITER
+} from "../types";
 import axios from "axios";
 
 const getInvitersList = () => async dispatch => {
@@ -38,6 +40,44 @@ const addInviter = (newInviter) => async dispatch => {
     }
 };
 
+const editInviter = (inviter) => async dispatch => {
+    try {
+        const response = await axios.put(`${BASE_URL}/inviters/${inviter.id}`, inviter);
+        console.log(response);
+        dispatch({
+            type: EDIT_INVITER,
+            payload: response.data,
+        });
+    } catch (e) {
+        dispatch({
+            type: ERROR_INVITERS,
+            payload: "Can't edit new inviter",
+        });
+    }
+};
+
+const deleteInviter = (inviterID) => async dispatch => {
+    try {
+        const response = await axios.delete(`${BASE_URL}/inviters/${inviterID}`);
+        dispatch({
+            type: EDIT_INVITER,
+            payload: response.data,
+        });
+    } catch (e) {
+        dispatch({
+            type: ERROR_INVITERS,
+            payload: "Can't edit new inviter",
+        });
+    }
+};
+
+const setCurInviter = (inviter) => {
+    return {
+        type: SET_CUR_INVITER,
+        payload: inviter,
+    };
+};
+
 const setInvitersListFiltered = (filterList) => {
     console.log("call work")
     console.log(filterList)
@@ -65,7 +105,10 @@ const errorInInvitersActions = () => {
 export default {
     getInvitersList,
     addInviter,
+    editInviter,
+    deleteInviter,
     errorInInvitersActions,
     setInvitersListFiltered,
-    clearInvitersListFilter
+    clearInvitersListFilter,
+    setCurInviter
 };

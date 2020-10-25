@@ -1,9 +1,14 @@
 
 .InvitersTable {
-
+  .MuiTableCell-alignLeft {
+    text-align: center;
+  }
   .TableBody {
-    td {
+    #fullName {
       cursor: pointer;
+    }
+    td {
+      text-align: center;
     }
   }
 }
