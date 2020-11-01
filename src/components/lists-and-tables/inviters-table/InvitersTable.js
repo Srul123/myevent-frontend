@@ -22,6 +22,161 @@ import {useDispatch} from 'react-redux'
 import invitersActions from "../../../redux/actions/invitersActions";
 
 
+
+
+export default function InvitersTable(props) {
+    const {rows, title, headCell, setEditOpenInviterDialog} = props;
+    const classes = useStyles();
+    const [order, setOrder] = React.useState('asc');
+    const [orderBy, setOrderBy] = React.useState('fullName');
+    const [selected, setSelected] = React.useState([]);
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const dispatch = useDispatch();
+    const setCurInviter = (inviter) => dispatch(invitersActions.setCurInviter(inviter));
+    const deleteInviter = (inviterID) => dispatch(invitersActions.deleteInviter(inviterID));
+
+    const handleRequestSort = (event, property) => {
+        const isAsc = orderBy === property && order === 'asc';
+        setOrder(isAsc ? 'desc' : 'asc');
+        setOrderBy(property);
+    };
+
+    const handleClickOnCheckbox = (id) => {
+        const selectedIndex = selected.indexOf(id);
+        let newSelected = [];
+
+        if (selectedIndex === -1) {
+            newSelected = newSelected.concat(selected, id);
+        } else if (selectedIndex === 0) {
+            newSelected = newSelected.concat(selected.slice(1));
+        } else if (selectedIndex === selected.length - 1) {
+            newSelected = newSelected.concat(selected.slice(0, -1));
+        } else if (selectedIndex > 0) {
+            newSelected = newSelected.concat(
+                selected.slice(0, selectedIndex),
+                selected.slice(selectedIndex + 1),
+            );
+        }
+        setSelected(newSelected);
+    };
+
+    const deleteSelected = () => {
+       selected.forEach(inviterID => {
+           console.log("id delete");
+           console.log(inviterID);
+           deleteInviter(inviterID);
+       });
+       setSelected([]);
+    };
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+
+    const isSelected = (id) => selected.indexOf(id) !== -1;
+
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+    const riseEditInviterModal = (row) => {
+        setCurInviter(row);
+        setEditOpenInviterDialog(true);
+    };
+
+    return (
+        <div className={classes.root + " InvitersTable"} style={{marginBottom: "7vh"}}>
+            <Paper className={classes.paper} style={{marginBottom: "8vh"}}>
+                <EnhancedTableToolbar numSelected={selected.length} title={title} headCell={headCell} deleteSelected={deleteSelected}/>
+                <TableContainer>
+                    <Table
+                        className={classes.table}
+                        aria-labelledby="tableTitle"
+                        size={'small'}
+                        aria-label="enhanced table"
+                    >
+                        <EnhancedTableHead
+                            classes={classes}
+                            numSelected={selected.length}
+                            order={order}
+                            orderBy={orderBy}
+                            onRequestSort={handleRequestSort}
+                            rowCount={rows.length}
+                            headCell={headCell}
+                            deleteSelected={deleteSelected}
+                        />
+                        <TableBody className={"TableBody"}>
+                            {stableSort(rows, getComparator(order, orderBy))
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map((row, index) => {
+                                    const isItemSelected = isSelected(row.id);
+                                    const labelId = `enhanced-table-checkbox-${index}`;
+                                    const {fullName, groupName, ownerName, alreadyApprove, phoneNumber, emailAddress, numberOfGuests, needRide} = row;
+                                    return (
+                                        <TableRow
+                                            hover
+                                            tabIndex={-1}
+                                            key={row.id}
+                                        >
+                                            <TableCell padding="checkbox">
+                                                <Checkbox
+                                                    onClick={(event) => handleClickOnCheckbox(row.id)}
+                                                    checked={isItemSelected}
+                                                    inputProps={{'aria-labelledby': labelId}}
+                                                />
+                                            </TableCell>
+                                            <TableCell id={"fullName"} onClick={() => riseEditInviterModal(row)}>
+                                                {fullName}
+                                            </TableCell>
+                                            <TableCell>{groupName}</TableCell>
+                                            <TableCell>{ownerName}</TableCell>
+                                            <TableCell>
+                                                {alreadyApprove ? (
+                                                    <span>Yes</span>
+                                                ) : (
+                                                    <span>No</span>
+                                                )}
+                                            </TableCell>
+                                            <TableCell>{phoneNumber}</TableCell>
+                                            <TableCell>{emailAddress}</TableCell>
+                                            <TableCell>{numberOfGuests}</TableCell>
+                                            <TableCell>
+                                                {needRide ? (
+                                                    <span>Yes</span>
+                                                ) : (
+                                                    <span>No</span>
+                                                )}
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            {emptyRows > 0 && (
+                                <TableRow style={{height: 33}}>
+                                    <TableCell colSpan={6}/>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
+            </Paper>
+        </div>
+    );
+}
+
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -112,7 +267,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
-    const {numSelected, title} = props;
+    const {numSelected, title, deleteSelected} = props;
 
     return (
         <Toolbar
@@ -133,7 +288,7 @@ const EnhancedTableToolbar = (props) => {
             {numSelected > 0 ? (
                     <React.Fragment>
                         <Tooltip title="Delete">
-                            <IconButton aria-label="delete">
+                            <IconButton onClick={()=>deleteSelected()} aria-label="delete">
                                 <DeleteIcon/>
                             </IconButton>
 
@@ -173,146 +328,3 @@ const useStyles = makeStyles((theme) => ({
         width: 1,
     },
 }));
-
-export default function InvitersTable(props) {
-    const {rows, title, headCell, setEditOpenInviterDialog} = props;
-    const classes = useStyles();
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('fullName');
-    const [selected, setSelected] = React.useState([]);
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const dispatch = useDispatch();
-    const setCurInviter = (inviter) => dispatch(invitersActions.setCurInviter(inviter));
-    const handleRequestSort = (event, property) => {
-        const isAsc = orderBy === property && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
-    };
-
-
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-
-        setSelected(newSelected);
-    };
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
-
-    const isSelected = (name) => selected.indexOf(name) !== -1;
-
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
-    const riseEditInviterModal = (row) => {
-        setCurInviter(row);
-        setEditOpenInviterDialog(true);
-    };
-
-    return (
-        <div className={classes.root + " InvitersTable"} style={{marginBottom: "7vh"}}>
-            <Paper className={classes.paper} style={{marginBottom: "8vh"}}>
-                <EnhancedTableToolbar numSelected={selected.length} title={title} headCell={headCell}/>
-                <TableContainer>
-                    <Table
-                        className={classes.table}
-                        aria-labelledby="tableTitle"
-                        size={'small'}
-                        aria-label="enhanced table"
-                    >
-                        <EnhancedTableHead
-                            classes={classes}
-                            numSelected={selected.length}
-                            order={order}
-                            orderBy={orderBy}
-                            onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
-                            headCell={headCell}
-                        />
-                        <TableBody className={"TableBody"}>
-                            {stableSort(rows, getComparator(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, index) => {
-                                    const isItemSelected = isSelected(row.fullName);
-                                    const labelId = `enhanced-table-checkbox-${index}`;
-                                    const {fullName, groupName, ownerName, alreadyApprove, phoneNumber, emailAddress, numberOfGuests, needRide} = row;
-                                    return (
-                                        <TableRow
-                                            hover
-                                            tabIndex={-1}
-                                            key={row.id}
-                                        >
-                                            <TableCell padding="checkbox">
-                                                <Checkbox
-                                                    onClick={(event) => handleClick(event, row.fullName)}
-                                                    checked={isItemSelected}
-                                                    inputProps={{'aria-labelledby': labelId}}
-                                                />
-                                            </TableCell>
-                                            <TableCell id={"fullName"} onClick={() => riseEditInviterModal(row)}>
-                                                {fullName}
-                                            </TableCell>
-                                            <TableCell>{groupName}</TableCell>
-                                            <TableCell>{ownerName}</TableCell>
-                                            <TableCell>
-                                                {alreadyApprove ? (
-                                                    <span>Yes</span>
-                                                ) : (
-                                                    <span>No</span>
-                                                )}
-                                            </TableCell>
-                                            <TableCell>{phoneNumber}</TableCell>
-                                            <TableCell>{emailAddress}</TableCell>
-                                            <TableCell>{numberOfGuests}</TableCell>
-                                            <TableCell>
-                                                {needRide ? (
-                                                    <span>Yes</span>
-                                                ) : (
-                                                    <span>No</span>
-                                                )}
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            {emptyRows > 0 && (
-                                <TableRow style={{height: 33}}>
-                                    <TableCell colSpan={6}/>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                />
-            </Paper>
-        </div>
-    );
-}

@@ -3,7 +3,7 @@ import {
     ADD_INVITER,
     ERROR_INVITERS,
     SET_FILTER_LIST,
-    CLEAR_FILTER_LIST, SET_CUR_INVITER, EDIT_INVITER, DELETE_INVITER
+    CLEAR_FILTER_LIST, SET_CUR_INVITER, EDIT_INVITER, DELETE_INVITER, DELETE_INVITERS
 } from "../types";
 
 const initialState = {
@@ -33,12 +33,33 @@ const invitersReducer = (state = initialState, action) => {
                 ...state,
                 invitersList: state.invitersList.map(inviter =>
                     inviter.id === action.payload.id ? action.payload : inviter
+                ),
+                invitersListFiltered: state.invitersList.map(inviter =>
+                    inviter.id === action.payload.id ? action.payload : inviter
                 )
             };
         case DELETE_INVITER:
             return {
                 ...state,
                 invitersList: state.invitersList.filter(inviter =>
+                    inviter.id !== action.payload
+                ),
+                invitersListFiltered: state.invitersList.filter(inviter =>
+                    inviter.id !== action.payload
+                )
+            };
+        case DELETE_INVITERS:
+            const filteredInviters = state.invitersList.filter(inviter=>{
+                for(let inviterIdToDelete of action.payload) {
+                    return inviterIdToDelete!==inviter.id;
+                }
+            });
+            return {
+                ...state,
+                invitersList: state.invitersList.filter(inviter =>
+                    inviter.id !== action.payload
+                ),
+                invitersListFiltered: state.invitersList.filter(inviter =>
                     inviter.id !== action.payload
                 )
             };

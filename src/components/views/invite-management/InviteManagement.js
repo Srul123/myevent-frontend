@@ -10,9 +10,11 @@ import {useSelector} from "react-redux";
 import InvitersTable from "../../lists-and-tables/inviters-table/InvitersTable";
 import AutocompleteSearchCheckboxesTags from "../../autocomplete-searchs/AutocompleteSearchCheckboxesTags";
 import NativeSelect from "@material-ui/core/NativeSelect";
-import AddInviterModal from "../../dialogs/add-inviter-modal/AddInviterModal";
 import GroupsModal from "../../dialogs/groups-modal/GroupsModal";
-import EditInviterModal from "../../dialogs/edit-inviter-modal/EditInviterModal";
+import ModalForForms from "../../dialogs-and-alerts/ModalForForms";
+import AddInviterForm from "../../forms/add-inviter-form/AddInviterForm";
+import EditInviterForm from "../../forms/edit-inviter-form/EditInviterForm";
+import GroupsTable from "../../lists-and-tables/groups-table/GroupsTable";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,9 +55,9 @@ export default function InviteManagement() {
     const classes = useStyles();
     const [eventOwner, setEventOwner] = React.useState('');
     const [openAddInviterDialog, setAddOpenInviterDialog] = React.useState(false);
+    const [openEditInviterDialog, setEditOpenInviterDialog] = React.useState(false);
     const [openGroupDialog, setGroupsDialog] = React.useState(false);
     const [openSpeedDials, setSpeedDials] = React.useState(false);
-    const [openEditInviterDialog, setEditOpenInviterDialog] = React.useState(false);
     const invitersListFilter = useSelector(state => state.invitersReducer.invitersListFiltered);
     const invitersList = useSelector(state => state.invitersReducer.invitersList);
     const user = useSelector(state => state.userReducer.user);
@@ -77,14 +79,20 @@ export default function InviteManagement() {
             <SpeedDials setOpenInviterDialog={setAddOpenInviterDialog} setOpenGroupsDialog={setGroupsDialog}/>
             <div className={classes.root} style={{marginTop: "80px"}}>
                 <Grid container spacing={5}>
-                    <AddInviterModal openInviterDialog={openAddInviterDialog}
-                                     setOpenInviterDialog={setAddOpenInviterDialog}
-                                     setSpeedDials={setSpeedDials}/>
+                    <ModalForForms
+                        openInviterDialog={openAddInviterDialog}
+                        setOpenInviterDialog={setAddOpenInviterDialog}
+                        formComponent={<AddInviterForm setOpenInviterDialog={setAddOpenInviterDialog} />}
+                    />
+                    <ModalForForms
+                        openInviterDialog={openEditInviterDialog}
+                        setOpenInviterDialog={setEditOpenInviterDialog}
+                        formComponent={<EditInviterForm setOpenInviterDialog={setEditOpenInviterDialog} />}
+                    />
                     <GroupsModal openGroupDialog={openGroupDialog}
-                                 setOpenGroupsDialog={setGroupsDialog}
-                                 setSpeedDials={setSpeedDials}/>
-                    <EditInviterModal openInviterDialog={openEditInviterDialog}
-                                      setOpenInviterDialog={setEditOpenInviterDialog}/>
+                                   setOpenGroupsDialog={setGroupsDialog}
+                                   setSpeedDials={setSpeedDials}
+                    />
 
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
@@ -124,7 +132,8 @@ export default function InviteManagement() {
                         </Paper>
                     </Grid>
                     <Grid item xs={12}>
-                        <InvitersTable title={"Inviters List"} headCell={tableHeadData} rows={invitersListFilter}  setEditOpenInviterDialog={setEditOpenInviterDialog}/>
+                        <InvitersTable title={"Inviters List"} headCell={tableHeadData} rows={invitersListFilter}
+                                       setEditOpenInviterDialog={setEditOpenInviterDialog}/>
                     </Grid>
 
                 </Grid>

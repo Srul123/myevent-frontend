@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import ContactsIcon from "@material-ui/icons/Contacts";
-import SnackbarWithPosition from "../../alerts/SnackbarWithPosition";
+import SnackbarWithPosition from "../../dialogs-and-alerts/SnackbarWithPosition";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";

@@ -9,8 +9,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link, useHistory } from "react-router-dom";
-import AlertsMessage from "../../alerts/AlertsMessage";
-import AlertDialog from "../../alerts/AlertDialog";
+import AlertsMessage from "../../dialogs-and-alerts/AlertsMessage";
+import AlertDialog from "../../dialogs-and-alerts/AlertDialog";
 import axios from "axios";
 import { validateInputsSignUp } from "../../../services/validationsFunctions";
 

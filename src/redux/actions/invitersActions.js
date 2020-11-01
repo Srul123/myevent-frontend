@@ -4,7 +4,7 @@ import {
     ADD_INVITER,
     BASE_URL,
     SET_FILTER_LIST,
-    CLEAR_FILTER_LIST, SET_CUR_INVITER, EDIT_INVITER
+    CLEAR_FILTER_LIST, SET_CUR_INVITER, EDIT_INVITER, DELETE_INVITER
 } from "../types";
 import axios from "axios";
 
@@ -57,16 +57,18 @@ const editInviter = (inviter) => async dispatch => {
 };
 
 const deleteInviter = (inviterID) => async dispatch => {
+    // debugger;
     try {
         const response = await axios.delete(`${BASE_URL}/inviters/${inviterID}`);
+        console.log("delete inviter with id: "+ inviterID);
         dispatch({
-            type: EDIT_INVITER,
-            payload: response.data,
+            type: DELETE_INVITER,
+            payload: inviterID,
         });
     } catch (e) {
         dispatch({
             type: ERROR_INVITERS,
-            payload: "Can't edit new inviter",
+            payload: "Can't delete inviter with id: "+inviterID,
         });
     }
 };

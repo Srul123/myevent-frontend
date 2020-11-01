@@ -17,8 +17,8 @@ import allActions from "../../../redux/actions";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import SnackbarWithPosition from "../../alerts/SnackbarWithPosition";
-import EventOwners from "../../event-owners/EventOwners";
+import SnackbarWithPosition from "../../dialogs-and-alerts/SnackbarWithPosition";
+import EventOwnersTable from "../../lists-and-tables/event-owners-table/EventOwnersTable";
 // import AutocompleteGoogleMaps from "../../autocomplete-searchs/AutocompleteGoogleMaps";
 
 
@@ -133,8 +133,8 @@ export default function MyEventDetails(props) {
                               onClick={() => setEnableSave(true)}>
                             <div>
                                 <FormControl variant="outlined" className={classes.formControl}>
-                                    <EventOwners eventOwners={eventOwners} setEventOwners={setEventOwners}
-                                                 defaultUser={`${user.firstName} ${user.lastName}`}/>
+                                    <EventOwnersTable eventOwners={eventOwners} setEventOwners={setEventOwners}
+                                                      defaultUser={`${user.firstName} ${user.lastName}`}/>
                                 </FormControl>
                             </div>
                             <div>

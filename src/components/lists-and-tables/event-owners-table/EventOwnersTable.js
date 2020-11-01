@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 });
 
 
-export default function EventOwners(props) {
+export default function EventOwnersTable(props) {
     const {eventOwners, setEventOwners, defaultUser} = props;
     let eventOwnersToShow = JSON.parse(JSON.stringify(eventOwners));
     eventOwnersToShow = eventOwnersToShow.filter(owner => {

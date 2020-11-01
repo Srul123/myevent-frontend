@@ -12,8 +12,8 @@ import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import {NavLink} from "react-router-dom";
 import axios from "axios";
-import AlertsMessage from "../../alerts/AlertsMessage";
-import LoaderSpinner from "../../loader-spinner/LoaderSpinner";
+import AlertsMessage from "../../dialogs-and-alerts/AlertsMessage";
+import LoaderSpinner from "../../layouts/loader-spinner/LoaderSpinner";
 import {useDispatch} from "react-redux";
 import allActions from "../../../redux/actions";
 import {
